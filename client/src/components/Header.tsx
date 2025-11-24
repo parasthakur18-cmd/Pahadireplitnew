@@ -13,47 +13,52 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b">
-      <div className="bg-primary text-primary-foreground py-2 text-center text-sm">
+    <header className="sticky top-0 z-50 bg-background/98 backdrop-blur border-b border-border">
+      <div className="bg-primary text-primary-foreground py-2.5 text-center text-sm font-medium tracking-tight">
         <p data-testid="text-announcement">100% Pure Himalayan Sourcing • Lab Tested • Free Shipping on Orders Over ₹999</p>
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           <Link href="/">
-            <a data-testid="link-home" className="flex items-center gap-2 hover-elevate rounded-md px-3 py-2 -ml-3">
-              <span className="font-serif text-2xl font-bold text-foreground">The Pahadi Company</span>
+            <a data-testid="link-home" className="flex items-center gap-3 hover-elevate rounded-lg px-4 py-2 -ml-4 active-elevate-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-orange-700 rounded-lg flex items-center justify-center shadow-md">
+                <span className="text-white font-serif font-bold text-lg">पा</span>
+              </div>
+              <div>
+                <span className="font-serif text-xl font-bold text-foreground block leading-tight">The Pahadi</span>
+                <span className="font-serif text-xs text-muted-foreground font-semibold">Himalayan</span>
+              </div>
             </a>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-8">
             <Link href="/">
-              <a data-testid="link-shop" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">Shop</a>
+              <a data-testid="link-shop" className="text-sm font-medium text-foreground/80 hover:text-foreground hover-elevate px-2 py-1 rounded-md transition-colors">Shop</a>
             </Link>
             <Link href="/about">
-              <a data-testid="link-about" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">Our Story</a>
+              <a data-testid="link-about" className="text-sm font-medium text-foreground/80 hover:text-foreground hover-elevate px-2 py-1 rounded-md transition-colors">Our Story</a>
             </Link>
             <Link href="/sourcing">
-              <a data-testid="link-sourcing" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">How It's Sourced</a>
+              <a data-testid="link-sourcing" className="text-sm font-medium text-foreground/80 hover:text-foreground hover-elevate px-2 py-1 rounded-md transition-colors">How It's Sourced</a>
             </Link>
             <Link href="/blog">
-              <a data-testid="link-blog" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">Blog</a>
+              <a data-testid="link-blog" className="text-sm font-medium text-foreground/80 hover:text-foreground hover-elevate px-2 py-1 rounded-md transition-colors">Blog</a>
             </Link>
             <Link href="/contact">
-              <a data-testid="link-contact" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">Contact</a>
+              <a data-testid="link-contact" className="text-sm font-medium text-foreground/80 hover:text-foreground hover-elevate px-2 py-1 rounded-md transition-colors">Contact</a>
             </Link>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Button
-              variant="outline"
               size="sm"
               data-testid="button-whatsapp"
               onClick={() => window.open('https://wa.me/919001949260', '_blank')}
-              className="hidden sm:flex items-center gap-2"
+              className="hidden sm:flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white"
             >
               <Phone className="w-4 h-4" />
-              <span className="text-xs">WhatsApp</span>
+              <span className="text-xs font-semibold">WhatsApp</span>
             </Button>
 
             <Button
