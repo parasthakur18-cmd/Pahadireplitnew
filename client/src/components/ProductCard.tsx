@@ -1,3 +1,4 @@
+import { useLocation } from "wouter";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,10 +12,20 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onAddToCart, onViewDetails }: ProductCardProps) {
+  const [, setLocation] = useLocation();
+
+  const handleCardClick = () => {
+    if (onViewDetails) {
+      onViewDetails(product);
+    } else {
+      setLocation(`/product/${product.slug}`);
+    }
+  };
+
   return (
     <Card 
       className="group overflow-hidden hover-elevate cursor-pointer transition-transform hover:scale-[1.02]"
-      onClick={() => onViewDetails?.(product)}
+      onClick={handleCardClick}
       data-testid={`card-product-${product.id}`}
     >
       <div className="aspect-[4/5] overflow-hidden bg-muted">
