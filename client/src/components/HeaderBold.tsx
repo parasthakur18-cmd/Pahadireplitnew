@@ -19,13 +19,7 @@ export default function HeaderBold({ cartItemCount = 0, onCartClick }: HeaderPro
         <div className="flex items-center justify-between h-20">
           <Link href="/">
             <a className="flex items-center gap-3 hover-elevate rounded-lg px-4 py-2">
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shadow-lg">
-                <span className="text-3xl font-serif font-bold">P</span>
-              </div>
-              <div>
-                <h1 className="font-serif text-2xl font-black text-background">PAHADI</h1>
-                <p className="text-xs text-background/70 font-bold">HIMALAYAN TREASURES</p>
-              </div>
+              <h1 className="font-serif text-2xl font-black text-background">THE PAHADI COMPANY</h1>
             </a>
           </Link>
 

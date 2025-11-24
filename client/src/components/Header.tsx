@@ -21,14 +21,8 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link href="/">
-            <a data-testid="link-home" className="flex items-center gap-3 hover-elevate rounded-lg px-4 py-2 -ml-4 active-elevate-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-orange-700 rounded-lg flex items-center justify-center shadow-md">
-                <span className="text-white font-serif font-bold text-lg">पा</span>
-              </div>
-              <div>
-                <span className="font-serif text-xl font-bold text-foreground block leading-tight">The Pahadi</span>
-                <span className="font-serif text-xs text-muted-foreground font-semibold">Himalayan</span>
-              </div>
+            <a data-testid="link-home" className="flex items-center gap-2 hover-elevate rounded-lg px-3 py-2">
+              <span className="font-serif text-2xl font-bold text-foreground">The Pahadi Company</span>
             </a>
           </Link>
 

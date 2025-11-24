@@ -16,7 +16,7 @@ export default function HeaderMinimal({ cartItemCount = 0, onCartClick }: Header
         <div className="flex items-center justify-between h-16">
           <Link href="/">
             <a className="hover-elevate rounded-lg px-3 py-2">
-              <h1 className="font-serif text-2xl font-bold text-black">The Pahadi</h1>
+              <h1 className="font-serif text-2xl font-bold text-black">The Pahadi Company</h1>
             </a>
           </Link>
 

@@ -19,13 +19,7 @@ export default function HeaderModern({ cartItemCount = 0, onCartClick }: HeaderP
         <div className="flex items-center justify-between h-24">
           <Link href="/">
             <a data-testid="link-home" className="flex items-center gap-2 hover-elevate rounded-lg px-3 py-2">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary via-orange-600 to-orange-700 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-serif font-bold text-2xl">🏔</span>
-              </div>
-              <div>
-                <h1 className="font-serif text-2xl font-bold text-foreground">The Pahadi</h1>
-                <p className="text-xs text-muted-foreground font-semibold">Pure Himalayan</p>
-              </div>
+              <h1 className="font-serif text-2xl font-bold text-foreground">The Pahadi Company</h1>
             </a>
           </Link>
 

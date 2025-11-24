@@ -17,10 +17,7 @@ export default function HeaderRustic({ cartItemCount = 0, onCartClick }: HeaderP
           <Link href="/">
             <a className="flex items-center gap-3 hover-elevate rounded-lg px-3 py-2">
               <Mountain className="w-8 h-8 text-orange-700" />
-              <div>
-                <h1 className="font-serif text-2xl font-bold text-orange-900">The Pahadi</h1>
-                <p className="text-xs text-orange-700 font-semibold">Straight from the mountains</p>
-              </div>
+              <h1 className="font-serif text-2xl font-bold text-orange-900">The Pahadi Company</h1>
             </a>
           </Link>
 
