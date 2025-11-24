@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ShoppingCart, Phone } from "lucide-react";
+import { ShoppingCart, Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -10,36 +10,36 @@ interface HeaderProps {
 
 export default function HeaderBold({ cartItemCount = 0, onCartClick }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-50 bg-black text-white border-b-4 border-orange-700 shadow-2xl">
-      <div className="bg-gradient-to-r from-orange-700 to-orange-600 text-white py-3 text-center text-xs font-black tracking-widest letter-spacing">
-        LUXURY HIMALAYAN HERITAGE • SINCE 2020
+    <header className="sticky top-0 z-50 bg-black text-white border-b-4 border-orange-600">
+      <div className="bg-orange-600 text-white py-2 text-center text-xs font-bold tracking-widest">
+        LUXURY HIMALAYAN HERITAGE
       </div>
-      
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
-        <div className="flex items-center justify-between h-24">
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           <Link href="/">
-            <a className="flex items-center gap-3 hover-elevate rounded-lg px-3 py-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-600 to-orange-700 rounded-lg flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-shadow">
-                <span className="text-white font-serif font-black text-2xl">P</span>
+            <a className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-orange-600 rounded flex items-center justify-center">
+                <span className="font-serif font-bold text-white text-lg">P</span>
               </div>
-              <h1 className="font-serif text-3xl font-black text-white">THE PAHADI COMPANY</h1>
+              <span className="font-serif text-xl font-black text-white">THE PAHADI</span>
             </a>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-10">
-            <Link href="/"><a className="text-sm font-bold text-white/80 hover:text-orange-500 transition">SHOP</a></Link>
-            <Link href="/about"><a className="text-sm font-bold text-white/80 hover:text-orange-500 transition">STORY</a></Link>
-            <Link href="/sourcing"><a className="text-sm font-bold text-white/80 hover:text-orange-500 transition">SOURCING</a></Link>
+            <Link href="/"><a className="text-sm font-bold text-gray-300 hover:text-orange-500">SHOP</a></Link>
+            <Link href="/about"><a className="text-sm font-bold text-gray-300 hover:text-orange-500">STORY</a></Link>
+            <Link href="/sourcing"><a className="text-sm font-bold text-gray-300 hover:text-orange-500">SOURCING</a></Link>
           </nav>
 
-          <div className="flex items-center gap-3">
-            <Button size="sm" className="hidden sm:flex bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white gap-2 font-bold shadow-xl px-6">
+          <div className="flex items-center gap-2">
+            <Button size="sm" className="hidden sm:flex bg-orange-600 hover:bg-orange-700 text-white gap-2 h-9 font-bold">
               <Phone className="w-4 h-4" />
-              ORDER NOW
+              <span className="text-xs">ORDER</span>
             </Button>
             <Button variant="ghost" size="icon" onClick={onCartClick} className="relative text-white hover:bg-white/10">
               <ShoppingCart className="w-5 h-5" />
-              {cartItemCount > 0 && <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-orange-600 text-white font-bold">{cartItemCount}</Badge>}
+              {cartItemCount > 0 && <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-orange-600">{cartItemCount}</Badge>}
             </Button>
           </div>
         </div>
