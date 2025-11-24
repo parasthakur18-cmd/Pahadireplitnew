@@ -1,0 +1,160 @@
+The Pahadi Company — Content package for a premium Himalayan e-commerce site
+Output style: Professional, warm, earthy, trustworthy. Short sentences, vivid sensory language, simple Hindi/English mix allowed where helpful. Brand voice: authentic, respectful, slightly rustic, premium. Use U.K./Indian spelling. Provide content in plain text and in easily copyable sections.
+
+Task: Generate a complete website content package only (no code, no tech). Deliver all page copy, product descriptions, SEO meta tags, hero headlines, CTAs, image prompts/alt text, sample product CSV for import, contact & WhatsApp templates, email & SMS templates, policy drafts (short), 12 social media post captions, 6 short reel/video scripts (with 3 voiceover lines each), 10 blog post ideas with 100-word outlines, FAQ (20 Qs), and a short brand style & asset checklist. Use the WhatsApp number 9001949260 where relevant.
+
+Deliverables (exact sections and content to produce)
+
+Brand summary & voice guidelines (one paragraph + 5 bullet voice rules)
+
+Short tagline options (5 variants)
+
+Primary brand message (2 lines)
+
+Tone examples (do/don't)
+
+Site structure & page-by-page content
+For each page listed below, produce: page title, SEO meta title (≤60 chars), meta description (≤155 chars), H1, H2s, hero paragraph (2–3 lines), primary CTA text, and 3–5 short supporting bullets.
+
+Pages:
+
+Home / Landing
+
+Shop / Category overview
+
+Product detail page (provide a reusable template and then full content for 8 example products — see list below)
+
+About Us / Our Story
+
+How It’s Sourced (sourcing & sustainability)
+
+Reels & Videos (landing for media)
+
+Blog / Recipes / Remedies
+
+Contact / Order on WhatsApp form
+
+Cart & Checkout microcopy (confirmation microcopy)
+
+Testimonials / Reviews page
+
+FAQs
+
+Privacy Policy (short), Terms & Conditions (short), Shipping & Returns (short)
+
+Product catalog (content for 8 products)
+For each product provide: product name, short tagline (6–8 words), 2–3 sentence product description, 5 bullet benefits, ingredients/origin, usage instructions, packaging & weight options, pricing tiers (suggested), SEO product title and meta description, 6 alt text suggestions, and 3 high-quality image prompts for each product suitable for a photographer or image generator.
+
+Products to create content for:
+
+Himalayan Wildflower Honey (Raw)
+
+Pahadi Desi Ghee (Grass-fed, small batch)
+
+Himalayan Herbal Tea Blend (Immunity)
+
+Cold-Pressed Walnut Oil (First cold press)
+
+Organic Amla Powder
+
+Natural Himalayan Salt (Pink, coarse)
+
+Shilajit Resin (Purified)
+
+Mountain Honey & Herb Gift Set (bundle)
+
+Also provide a single CSV (comma separated) sample with headers suitable for CMS import containing all 8 products (id, title, slug, price, stock, weight, short_description, long_description, tags, image_filenames).
+
+Hero copy variations (10 concise options) and 6 CTA variants for A/B testing.
+
+Image & asset plan
+
+For each page give 6 image suggestions and precise alt text.
+
+Photography brief (lighting, props, styling, mood).
+
+List of 12 specific images to shoot or generate (filename suggestions) and short photographer prompts.
+
+SEO & metadata
+
+Home page SEO title & meta (3 options)
+
+15 targeted keywords and 5 long-tail keywords (India/Himalayan focused)
+
+5 schema suggestions (product, organization, breadcrumbs, FAQ, review) and example JSON-LD snippets as plain text.
+
+Content for marketing & conversion
+
+3 hero banner offers (copy for banners)
+
+6 limited-time promo email subject lines + 3 full email bodies (welcome, abandoned cart, new product launch)
+
+3 SMS/WhatsApp templates (order confirmation, pickup ready, shipping update)
+
+Order confirmation page copy and order confirmation email copy.
+
+Social & video
+
+12 social post captions (instagram/facebook) with short hashtag lists (10 hashtags each) and suggested image type.
+
+6 short Instagram Reels / YouTube Short scripts (each 20–40 seconds) with: shot list (3–5 shots), on-screen text, and 3 voiceover lines. Include one reel showing "how ghee is made", one showing "how to use shilajit", one featuring local farmers.
+
+3 voiceover script options for 30–45s brand video (narration only).
+
+Blog content ideas
+
+10 blog titles + 100-word outline for each (topics like benefits of Himalayan honey, how to spot real ghee, sustainable sourcing).
+
+FAQ — 20 questions and concise answers (clear, helpful).
+
+Legal micro-pages (short drafts)
+
+Short Privacy Policy (250–350 words)
+
+Short Terms & Conditions (300–500 words)
+
+Shipping & Returns policy (200–300 words)
+
+Customer support scripts
+
+Live chat opening lines (5 variants)
+
+Support reply templates for common queries: refunds, damaged item, product authenticity, shipping delay, international orders.
+
+Trust & conversion elements
+
+8 review/testimonial examples (realistic but fictional) with names, location, star rating, and 1–2 sentence review.
+
+5 trust badge texts (e.g., '100% Pure Himalayan Sourcing', 'Locally Sourced', 'Lab Tested').
+
+Analytics & tracking text (non-technical)
+
+Short checklist of what events to track (page view, add to cart, begin checkout, purchase, newsletter signup).
+
+CMS importables
+
+Provide a simple JSON snippet example for one product and for one blog post (title, slug, excerpt, content, tags, image filenames, publish date).
+
+Provide copy for 6 site navigation labels and footer text.
+
+Accessibility & UX microcopy
+
+Alt text strategy (rules + 10 alt text examples)
+
+Empty cart microcopy, error states microcopy (5 examples), 404 page copy with CTA.
+
+Final asset checklist for handoff to developer/photographer
+
+List of filenames, dimensions, recommended formats, and captions.
+
+Tone/Constraints:
+
+Keep all SEO meta descriptions ≤155 chars and meta titles ≤60 chars.
+
+Headline (H1) should be short ≤8 words.
+
+Use plain text only. When giving lists, keep them concise and ready to copy.
+
+Where numeric measurements appear, use metric first (g, kg, ml).
+
+Wherever phone number appears use: +91 90019 49260 and also 9001949260 for WhatsApp buttons.
