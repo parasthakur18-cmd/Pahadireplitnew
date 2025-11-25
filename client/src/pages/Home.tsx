@@ -13,7 +13,7 @@ import { useSEOMeta } from '@/components/SEOMeta';
 import type { Product } from '@shared/schema';
 
 // TODO: remove mock functionality - Import product images (Consistent sized premium products)
-import honeyImage from '@assets/generated_images/wildflower_honey_premium_product.png';
+import honeyImage from '@assets/generated_images/premium_honey_with_spoon_luxurious.png';
 import gheeImage from '@assets/generated_images/pahadi_desi_ghee_premium_product.png';
 import teaImage from '@assets/generated_images/himalayan_herbal_tea_premium.png';
 import oilImage from '@assets/generated_images/walnut_oil_premium_product.png';
