@@ -40,6 +40,7 @@ const mockProducts: Product[] = [
     benefits: ['Rich in antioxidants', 'Natural energy boost', 'Supports immunity', 'Anti-inflammatory properties', 'Aids digestion'],
     ingredients: '100% Pure Raw Wildflower Honey from Himalayan flora including rhododendron, wild roses, and mountain herbs',
     usage: 'Take 1-2 teaspoons daily on empty stomach or add to warm (not hot) beverages. Perfect as a natural sweetener in tea, smoothies, or drizzled over yogurt.',
+    variants: null,
   },
   {
     id: '2',
@@ -55,6 +56,7 @@ const mockProducts: Product[] = [
     benefits: ['Rich in A2 protein', 'High smoke point for cooking', 'Supports brain health', 'Rich in vitamins A, D, E, K', 'Improves digestion'],
     ingredients: 'Pure A2 milk from grass-fed Pahadi cows, cultured using traditional dahi method and hand-churned',
     usage: 'Use for high-heat cooking, add to dal, rice, or rotis. Take 1 teaspoon on empty stomach for digestive health. Perfect for Ayurvedic practices.',
+    variants: null,
   },
   {
     id: '3',
@@ -70,6 +72,7 @@ const mockProducts: Product[] = [
     benefits: ['Boosts immunity', 'Reduces stress and anxiety', 'Aids respiratory health', 'Rich in antioxidants', 'Caffeine-free energy'],
     ingredients: 'Organic Tulsi, Himalayan Lemongrass, Fresh Ginger, Wild Mountain Mint, Licorice Root, hand-picked at peak freshness',
     usage: 'Steep 1 teaspoon in hot water for 5-7 minutes. Enjoy 2-3 cups daily. Can be had with honey or as is. Perfect morning or evening ritual.',
+    variants: null,
   },
   {
     id: '4',
@@ -85,6 +88,7 @@ const mockProducts: Product[] = [
     benefits: ['Rich in Omega-3', 'Supports heart health', 'Anti-inflammatory', 'Good for skin and hair', 'Brain health'],
     ingredients: '100% Pure Cold-Pressed Himalayan Walnuts (Juglans regia), single origin, first press only',
     usage: 'Drizzle over salads, use in dressings, or add to smoothies. Not for high-heat cooking. Can be applied topically for hair and skin nourishment.',
+    variants: null,
   },
   {
     id: '5',
@@ -100,6 +104,7 @@ const mockProducts: Product[] = [
     benefits: ['Highest natural vitamin C', 'Boosts immunity', 'Promotes hair growth', 'Improves digestion', 'Antioxidant powerhouse'],
     ingredients: '100% Organic Wild Amla (Emblica officinalis), sun-dried and stone-ground, no additives',
     usage: 'Mix 1 teaspoon with water, juice, or honey daily. Can be used in hair masks or face packs. Best taken on empty stomach.',
+    variants: null,
   },
   {
     id: '6',
@@ -115,6 +120,7 @@ const mockProducts: Product[] = [
     benefits: ['84 trace minerals', 'Supports electrolyte balance', 'Aids hydration', 'Natural detoxifier', 'Better than table salt'],
     ingredients: '100% Pure Himalayan Pink Rock Salt (Halite) from Khewra mines, unrefined and unprocessed',
     usage: 'Use as regular cooking salt or for salt water therapy. Grind fresh for maximum flavor. Ideal for salt lamps and baths.',
+    variants: null,
   },
   {
     id: '7',
@@ -130,6 +136,7 @@ const mockProducts: Product[] = [
     benefits: ['Boosts energy and stamina', 'Supports testosterone', 'Enhances cognitive function', 'Anti-aging properties', 'Improves nutrient absorption'],
     ingredients: 'Pure Himalayan Shilajit Resin (Asphaltum punjabianum), purified through traditional filtration, lab-tested for heavy metals',
     usage: 'Dissolve a pea-sized portion in warm water or milk. Take once daily, preferably in morning. Start with smaller dose and increase gradually.',
+    variants: null,
   },
   {
     id: '8',
@@ -145,6 +152,7 @@ const mockProducts: Product[] = [
     benefits: ['Best value combination', 'Boost average order', 'Perfect gift set', 'Cooking + wellness', 'Save ₹99 vs individual'],
     ingredients: 'Pahadi Desi Ghee (500g) + Himalayan Wildflower Honey (500g)',
     usage: 'Use ghee for cooking and honey for daily wellness. Perfect for traditional Indian cuisine and Ayurvedic practices.',
+    variants: null,
   },
   {
     id: '9',
@@ -160,6 +168,7 @@ const mockProducts: Product[] = [
     benefits: ['High in plant protein', 'Rich in dietary fiber', 'Good for digestion', 'Heart-healthy legume', 'Sustainable farming'],
     ingredients: '100% Organic Pahadi Rajma (Kidney Beans) from mountain farms, naturally dried',
     usage: 'Soak overnight, boil for 20-30 minutes. Perfect for traditional Indian dal, rajma rice, or mixed vegetable curries. Use in soups and salads.',
+    variants: null,
   },
   {
     id: '10',
@@ -175,6 +184,7 @@ const mockProducts: Product[] = [
     benefits: ['Powerful anti-inflammatory', 'Boosts immunity naturally', 'Aids respiratory health', 'Rich in antioxidants', 'Traditional Himalayan remedy', 'Detoxifying properties'],
     ingredients: '100% Pure Organic Buransh (Rhododendron) Flower Juice from high-altitude Himalayan mountains, no preservatives or added sugars',
     usage: 'Take 30-50ml daily, diluted with water or consume directly. Can be taken in morning on empty stomach for best results. Perfect for boosting immunity during changing seasons. Shake well before use.',
+    variants: null,
   },
   {
     id: '11',
@@ -190,6 +200,7 @@ const mockProducts: Product[] = [
     benefits: ['Complete wellness package', 'Premium gift option', 'Perfect for offices', 'Save ₹198 vs individual', 'Beautiful packaging'],
     ingredients: 'Ghee 500g + Honey 500g + Buransh Juice 250ml',
     usage: 'Premium gift combo. Each product comes with detailed usage instructions. Ideal for corporate gifting and premium wellness enthusiasts.',
+    variants: null,
   },
 ];
 

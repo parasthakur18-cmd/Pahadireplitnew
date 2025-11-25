@@ -41,21 +41,21 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link href="/"><a className="text-sm text-muted-foreground hover-elevate rounded px-1" data-testid="link-footer-shop">Shop</a></Link></li>
-              <li><Link href="/about"><a className="text-sm text-muted-foreground hover-elevate rounded px-1" data-testid="link-footer-about">About Us</a></Link></li>
-              <li><Link href="/sourcing"><a className="text-sm text-muted-foreground hover-elevate rounded px-1" data-testid="link-footer-sourcing">How It's Sourced</a></Link></li>
-              <li><Link href="/blog"><a className="text-sm text-muted-foreground hover-elevate rounded px-1" data-testid="link-footer-blog">Blog & Recipes</a></Link></li>
-              <li><Link href="/contact"><a className="text-sm text-muted-foreground hover-elevate rounded px-1" data-testid="link-footer-contact">Contact</a></Link></li>
+              <li><a href="/" className="text-sm text-muted-foreground hover-elevate rounded px-1 block" data-testid="link-footer-shop">Shop</a></li>
+              <li><a href="/about" className="text-sm text-muted-foreground hover-elevate rounded px-1 block" data-testid="link-footer-about">About Us</a></li>
+              <li><a href="/sourcing" className="text-sm text-muted-foreground hover-elevate rounded px-1 block" data-testid="link-footer-sourcing">How It's Sourced</a></li>
+              <li><a href="/blog" className="text-sm text-muted-foreground hover-elevate rounded px-1 block" data-testid="link-footer-blog">Blog & Recipes</a></li>
+              <li><a href="/contact" className="text-sm text-muted-foreground hover-elevate rounded px-1 block" data-testid="link-footer-contact">Contact</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold mb-4">Policies</h4>
             <ul className="space-y-2">
-              <li><Link href="/privacy"><a className="text-sm text-muted-foreground hover-elevate rounded px-1" data-testid="link-footer-privacy">Privacy Policy</a></Link></li>
-              <li><Link href="/terms"><a className="text-sm text-muted-foreground hover-elevate rounded px-1" data-testid="link-footer-terms">Terms & Conditions</a></Link></li>
-              <li><Link href="/shipping"><a className="text-sm text-muted-foreground hover-elevate rounded px-1" data-testid="link-footer-shipping">Shipping & Returns</a></Link></li>
-              <li><Link href="/faq"><a className="text-sm text-muted-foreground hover-elevate rounded px-1" data-testid="link-footer-faq">FAQ</a></Link></li>
+              <li><a href="/privacy" className="text-sm text-muted-foreground hover-elevate rounded px-1 block" data-testid="link-footer-privacy">Privacy Policy</a></li>
+              <li><a href="/terms" className="text-sm text-muted-foreground hover-elevate rounded px-1 block" data-testid="link-footer-terms">Terms & Conditions</a></li>
+              <li><a href="/shipping" className="text-sm text-muted-foreground hover-elevate rounded px-1 block" data-testid="link-footer-shipping">Shipping & Returns</a></li>
+              <li><a href="/faq" className="text-sm text-muted-foreground hover-elevate rounded px-1 block" data-testid="link-footer-faq">FAQ</a></li>
             </ul>
           </div>
 
