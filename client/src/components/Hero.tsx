@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import heroImage from '@assets/generated_images/himalayan_landscape_hero_image.png';
+import heroImage from '@assets/generated_images/premium_himalayan_mountain_sunrise_landscape.png';
 
 interface HeroProps {
   onShopClick?: () => void;
