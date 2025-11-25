@@ -17,7 +17,7 @@ export default function Hero({ products = [], onShopClick, onStoryClick }: HeroP
 
   return (
     <section 
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
+      className="relative w-full h-screen overflow-y-hidden flex items-center justify-center"
       style={{
         backgroundImage: `url(${heroProduct.image})`,
         backgroundSize: 'cover',
@@ -30,7 +30,7 @@ export default function Hero({ products = [], onShopClick, onStoryClick }: HeroP
 
       {/* Main Content */}
       <div className="relative z-10 w-full h-full flex flex-col items-start justify-center px-6 md:px-16 max-w-7xl">
-        <div className="space-y-8 max-w-lg">
+        <div className="space-y-8 max-w-2xl">
           {/* Trust Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
             <Award className="w-4 h-4 text-orange-400" />
@@ -40,7 +40,7 @@ export default function Hero({ products = [], onShopClick, onStoryClick }: HeroP
           {/* Product Name as Headline */}
           <div>
             <h1 
-              className="font-serif text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
+              className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight break-words"
               data-testid="text-hero-product-name"
             >
               {heroProduct.name}
