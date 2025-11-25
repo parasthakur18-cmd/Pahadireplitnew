@@ -23,6 +23,7 @@ export const products = pgTable("products", {
   benefits: text("benefits").array().notNull(),
   ingredients: text("ingredients").notNull(),
   usage: text("usage").notNull(),
+  variants: text("variants").array(),
 });
 
 export const reviews = pgTable("reviews", {

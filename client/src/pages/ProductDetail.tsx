@@ -119,12 +119,34 @@ const mockReviews = [
 
 interface CartItem extends Product {
   quantity: number;
+  selectedSize?: string;
+}
+
+interface ProductVariant {
+  size: string;
+  price: string;
 }
 
 export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [selectedSize, setSelectedSize] = useState<string>('');
+
+  // Product variants (size options with prices)
+  const productVariants: ProductVariant[] = [
+    { size: '250ml', price: '349' },
+    { size: '500ml', price: '599' },
+    { size: '1L', price: '999' },
+    { size: '1kg', price: '1299' },
+  ];
+
+  // Get current price based on selected size
+  const getCurrentPrice = () => {
+    if (!selectedSize) return mockProduct.price;
+    const variant = productVariants.find(v => v.size === selectedSize);
+    return variant ? variant.price : mockProduct.price;
+  };
 
   // SEO Meta Tags for Product Detail
   useSEOMeta({
@@ -160,19 +182,28 @@ export default function ProductDetail() {
   });
 
   const handleAddToCart = () => {
-    const cartItem = { ...mockProduct, quantity };
+    if (!selectedSize) {
+      alert('Please select a size');
+      return;
+    }
+    const cartItem = { 
+      ...mockProduct, 
+      quantity,
+      selectedSize,
+      price: getCurrentPrice()
+    };
     setCartItems(prev => {
-      const existing = prev.find(item => item.id === mockProduct.id);
+      const existing = prev.find(item => item.id === mockProduct.id && item.selectedSize === selectedSize);
       if (existing) {
         return prev.map(item =>
-          item.id === mockProduct.id
+          item.id === mockProduct.id && item.selectedSize === selectedSize
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
       return [...prev, cartItem];
     });
-    console.log('Added to cart:', mockProduct.name, 'Qty:', quantity);
+    console.log('Added to cart:', mockProduct.name, 'Size:', selectedSize, 'Qty:', quantity);
   };
 
   const handleUpdateQuantity = (id: string, qty: number) => {
@@ -270,9 +301,31 @@ export default function ProductDetail() {
 
               <div className="flex items-center gap-4 mb-6">
                 <span className="text-4xl font-bold" data-testid="text-price">
-                  ₹{mockProduct.price}
+                  ₹{getCurrentPrice()}
                 </span>
                 <Badge data-testid="badge-in-stock">In Stock</Badge>
+              </div>
+
+              {/* Size Selection */}
+              <div className="mb-8">
+                <p className="font-semibold mb-3">Select Size</p>
+                <div className="grid grid-cols-2 gap-3">
+                  {productVariants.map((variant) => (
+                    <button
+                      key={variant.size}
+                      onClick={() => setSelectedSize(variant.size)}
+                      data-testid={`button-size-${variant.size}`}
+                      className={`p-3 border-2 rounded-lg font-semibold transition-all ${
+                        selectedSize === variant.size
+                          ? 'border-orange-600 bg-orange-50 text-orange-700'
+                          : 'border-gray-200 bg-white text-gray-700 hover:border-orange-300'
+                      }`}
+                    >
+                      <div>{variant.size}</div>
+                      <div className="text-sm">₹{variant.price}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="grid grid-cols-4 gap-4 mb-8 p-4 bg-muted/50 rounded-lg">
