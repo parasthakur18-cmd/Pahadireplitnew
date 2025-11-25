@@ -209,11 +209,11 @@ export default function ProductDetail() {
         {/* Product Hero Section */}
         <div className="grid md:grid-cols-2 gap-12 mb-16">
           <div>
-            <div className="bg-muted rounded-lg overflow-hidden mb-6">
+            <div className="bg-muted rounded-lg overflow-hidden mb-6 aspect-[4/5]">
               <img 
                 src={mockProduct.image}
                 alt={mockProduct.name}
-                className="w-full h-[500px] object-cover"
+                className="w-full h-full object-cover"
                 data-testid="img-product-detail"
               />
             </div>
