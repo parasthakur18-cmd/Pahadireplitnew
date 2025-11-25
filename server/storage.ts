@@ -53,7 +53,8 @@ export class MemStorage implements IStorage {
         inStock: 45,
         benefits: ["Rich in antioxidants", "Natural energy boost", "Supports immunity", "Anti-inflammatory properties", "Aids digestion"],
         ingredients: "100% Pure Raw Wildflower Honey from Himalayan flora including rhododendron, wild roses, and mountain herbs",
-        usage: "Take 1-2 teaspoons daily on empty stomach or add to warm (not hot) beverages. Perfect as a natural sweetener in tea, smoothies, or drizzled over yogurt."
+        usage: "Take 1-2 teaspoons daily on empty stomach or add to warm (not hot) beverages. Perfect as a natural sweetener in tea, smoothies, or drizzled over yogurt.",
+        variants: null
       },
       {
         id: "2",
@@ -68,7 +69,8 @@ export class MemStorage implements IStorage {
         inStock: 28,
         benefits: ["Rich in A2 protein", "High smoke point for cooking", "Supports brain health", "Rich in vitamins A, D, E, K", "Improves digestion"],
         ingredients: "Pure A2 milk from grass-fed Pahadi cows, cultured using traditional dahi method and hand-churned",
-        usage: "Use for high-heat cooking, add to dal, rice, or rotis. Take 1 teaspoon on empty stomach for digestive health. Perfect for Ayurvedic practices."
+        usage: "Use for high-heat cooking, add to dal, rice, or rotis. Take 1 teaspoon on empty stomach for digestive health. Perfect for Ayurvedic practices.",
+        variants: null
       },
       {
         id: "3",
@@ -83,7 +85,8 @@ export class MemStorage implements IStorage {
         inStock: 62,
         benefits: ["Boosts immunity", "Reduces stress and anxiety", "Aids respiratory health", "Rich in antioxidants", "Caffeine-free energy"],
         ingredients: "Organic Tulsi, Himalayan Lemongrass, Fresh Ginger, Wild Mountain Mint, Licorice Root, hand-picked at peak freshness",
-        usage: "Steep 1 teaspoon in hot water for 5-7 minutes. Enjoy 2-3 cups daily. Can be had with honey or as is. Perfect morning or evening ritual."
+        usage: "Steep 1 teaspoon in hot water for 5-7 minutes. Enjoy 2-3 cups daily. Can be had with honey or as is. Perfect morning or evening ritual.",
+        variants: null
       },
       {
         id: "4",
@@ -98,7 +101,8 @@ export class MemStorage implements IStorage {
         inStock: 35,
         benefits: ["Rich in Omega-3", "Supports heart health", "Anti-inflammatory", "Good for skin and hair", "Brain health"],
         ingredients: "100% Pure Cold-Pressed Himalayan Walnuts (Juglans regia), single origin, first press only",
-        usage: "Drizzle over salads, use in dressings, or add to smoothies. Not for high-heat cooking. Can be applied topically for hair and skin nourishment."
+        usage: "Drizzle over salads, use in dressings, or add to smoothies. Not for high-heat cooking. Can be applied topically for hair and skin nourishment.",
+        variants: null
       },
       {
         id: "5",
@@ -113,7 +117,8 @@ export class MemStorage implements IStorage {
         inStock: 58,
         benefits: ["Highest natural vitamin C", "Boosts immunity", "Promotes hair growth", "Improves digestion", "Antioxidant powerhouse"],
         ingredients: "100% Organic Wild Amla (Emblica officinalis), sun-dried and stone-ground, no additives",
-        usage: "Mix 1 teaspoon with water, juice, or honey daily. Can be used in hair masks or face packs. Best taken on empty stomach."
+        usage: "Mix 1 teaspoon with water, juice, or honey daily. Can be used in hair masks or face packs. Best taken on empty stomach.",
+        variants: null
       },
       {
         id: "6",
@@ -128,7 +133,8 @@ export class MemStorage implements IStorage {
         inStock: 92,
         benefits: ["84 trace minerals", "Supports electrolyte balance", "Aids hydration", "Natural detoxifier", "Better than table salt"],
         ingredients: "100% Pure Himalayan Pink Rock Salt (Halite) from Khewra mines, unrefined and unprocessed",
-        usage: "Use as regular cooking salt or for salt water therapy. Grind fresh for maximum flavor. Ideal for salt lamps and baths."
+        usage: "Use as regular cooking salt or for salt water therapy. Grind fresh for maximum flavor. Ideal for salt lamps and baths.",
+        variants: null
       },
       {
         id: "7",
@@ -143,7 +149,8 @@ export class MemStorage implements IStorage {
         inStock: 18,
         benefits: ["Boosts energy and stamina", "Supports testosterone", "Enhances cognitive function", "Anti-aging properties", "Improves nutrient absorption"],
         ingredients: "Pure Himalayan Shilajit Resin (Asphaltum punjabianum), purified through traditional filtration, lab-tested for heavy metals",
-        usage: "Dissolve a pea-sized portion in warm water or milk. Take once daily, preferably in morning. Start with smaller dose and increase gradually."
+        usage: "Dissolve a pea-sized portion in warm water or milk. Take once daily, preferably in morning. Start with smaller dose and increase gradually.",
+        variants: null
       },
       {
         id: "8",
@@ -158,7 +165,8 @@ export class MemStorage implements IStorage {
         inStock: 24,
         benefits: ["Perfect gift option", "Eco-friendly packaging", "Bestseller collection", "Wellness starter pack", "Beautiful presentation"],
         ingredients: "Includes: Wildflower Honey 250g, Herbal Tea Blend 50g, Organic Amla Powder 100g, packaged with care",
-        usage: "A perfect introduction to Himalayan wellness. Each item has individual usage instructions. Makes an ideal gift for health-conscious loved ones."
+        usage: "A perfect introduction to Himalayan wellness. Each item has individual usage instructions. Makes an ideal gift for health-conscious loved ones.",
+        variants: null
       },
       {
         id: "9",
@@ -173,7 +181,8 @@ export class MemStorage implements IStorage {
         inStock: 32,
         benefits: ["Complete wellness duo", "Perfect for cooking & health", "Lab-tested purity", "Premium packaging", "Great value combo"],
         ingredients: "Pure A2 Desi Ghee (500g) + Raw Wildflower Honey (500g)",
-        usage: "Use ghee for high-heat cooking, add to rotis, dal or rice. Take honey daily with warm water for immunity. Perfect morning wellness ritual."
+        usage: "Use ghee for high-heat cooking, add to rotis, dal or rice. Take honey daily with warm water for immunity. Perfect morning wellness ritual.",
+        variants: null
       },
       {
         id: "10",
@@ -188,7 +197,8 @@ export class MemStorage implements IStorage {
         inStock: 15,
         benefits: ["7 premium products", "Complete wellness solution", "Perfect gift set", "Luxury packaging", "Save ₹700+ vs individual purchases"],
         ingredients: "Includes: Honey 500g, Ghee 500g, Herbal Tea 100g, Walnut Oil 250ml, Amla Powder 200g, Pink Salt 500g, Shilajit 10g",
-        usage: "A complete Himalayan wellness starter pack. Each product can be used independently for targeted health benefits or together as a holistic wellness routine."
+        usage: "A complete Himalayan wellness starter pack. Each product can be used independently for targeted health benefits or together as a holistic wellness routine.",
+        variants: null
       }
     ];
 

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Trash2, Phone } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useSEOMeta } from "@/components/SEOMeta";
 import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
 import type { CartItem, Product } from "@shared/schema";
 
