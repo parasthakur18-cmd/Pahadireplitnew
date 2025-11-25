@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Leaf, Award, Droplet, ChevronDown } from "lucide-react";
+import { Leaf, Award, Droplet, ChevronDown, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import type { Product } from '@shared/schema';
 
@@ -32,12 +31,6 @@ export default function Hero({ products = [], onShopClick, onStoryClick }: HeroP
       {/* Main Content */}
       <div className="relative z-10 w-full h-full flex flex-col items-start justify-center px-4 sm:px-6 md:px-12 lg:px-16 py-8">
         <div className="space-y-4 md:space-y-6 w-full max-w-3xl">
-          {/* Trust Badge */}
-          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 text-xs">
-            <Award className="w-3.5 h-3.5 text-orange-400 flex-shrink-0" />
-            <span className="text-white/90 font-medium">Laboratory Tested & Certified</span>
-          </div>
-
           {/* Product Name as Headline */}
           <div className="space-y-2">
             <h1 
@@ -71,18 +64,6 @@ export default function Hero({ products = [], onShopClick, onStoryClick }: HeroP
               <Award className="w-4 h-4 text-orange-400 mt-0.5 flex-shrink-0" />
               <span className="text-white/80 text-xs sm:text-sm">Zero compromise on quality</span>
             </div>
-          </div>
-
-          {/* CTA */}
-          <div className="pt-4">
-            <Button 
-              size="sm"
-              data-testid="button-shop-now"
-              onClick={onShopClick}
-              className="bg-white text-gray-900 hover:bg-gray-100 font-semibold px-6 md:px-10 py-2"
-            >
-              Shop Now <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
           </div>
         </div>
       </div>
