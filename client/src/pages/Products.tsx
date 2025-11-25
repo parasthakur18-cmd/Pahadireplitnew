@@ -60,17 +60,32 @@ export default function Products() {
     : products;
 
   const addToCart = async (product: Product) => {
-    const res = await fetch("/api/cart/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        productId: product.id,
-        quantity: 1,
-        sessionId
-      })
-    });
-    if (res.ok) {
-      setCartCount(c => c + 1);
+    if (!sessionId) {
+      alert('Initializing cart...');
+      return;
+    }
+    try {
+      const res = await fetch("/api/cart/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: product.id,
+          quantity: 1,
+          sessionId
+        })
+      });
+      if (res.ok) {
+        setCartCount(c => c + 1);
+        alert(`✓ ${product.name} added to cart!`);
+        console.log('Added to cart:', product.name);
+      } else {
+        const error = await res.text();
+        alert(`Error adding to cart: ${error}`);
+        console.error('Add to cart failed:', error);
+      }
+    } catch (err) {
+      alert('Error adding to cart');
+      console.error('Add to cart error:', err);
     }
   };
 

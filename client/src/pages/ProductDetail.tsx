@@ -195,14 +195,10 @@ export default function ProductDetail() {
   });
 
   const handleAddToCart = () => {
-    if (!selectedSize) {
-      alert('Please select a size');
-      return;
-    }
     const cartItem = { 
       ...mockProduct, 
       quantity,
-      selectedSize,
+      selectedSize: selectedSize || 'default',
       price: getCurrentPrice()
     };
     setCartItems(prev => {
@@ -216,7 +212,8 @@ export default function ProductDetail() {
       }
       return [...prev, cartItem];
     });
-    console.log('Added to cart:', mockProduct.name, 'Size:', selectedSize, 'Qty:', quantity);
+    alert(`✓ Added ${quantity} × ${mockProduct.name} to cart!`);
+    console.log('Added to cart:', mockProduct.name, 'Qty:', quantity);
   };
 
   const handleUpdateQuantity = (id: string, qty: number) => {
