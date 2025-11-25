@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useSEOMeta } from "@/components/SEOMeta";
+import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
 import type { Product } from "@shared/schema";
 
 export default function Products() {
@@ -70,9 +71,10 @@ export default function Products() {
             </div>
           </nav>
           
-          <div className="mb-8">
-            <h1 className="font-serif text-4xl font-bold text-foreground mb-2">All Products</h1>
-            <p className="text-lg text-muted-foreground">Discover our complete collection of authentic Himalayan products</p>
+          <div className="mb-12 flex flex-col items-center">
+            <img src={logoImage} alt="The Pahadi Company" className="w-20 h-20 rounded-full mb-6 object-cover" data-testid="img-logo-products" />
+            <h1 className="font-serif text-4xl font-bold text-foreground mb-2 text-center">All Products</h1>
+            <p className="text-lg text-muted-foreground text-center">Discover our complete collection of authentic Himalayan products</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

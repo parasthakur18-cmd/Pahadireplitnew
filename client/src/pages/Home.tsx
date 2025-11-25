@@ -12,15 +12,16 @@ import Cart from '@/components/Cart';
 import { useSEOMeta } from '@/components/SEOMeta';
 import type { Product } from '@shared/schema';
 
-// TODO: remove mock functionality - Import product images (Premium Himalayan mountain backdrop style)
+// TODO: remove mock functionality - Import product images (Premium Himalayan mountain backdrop style + Professional packaging)
 import honeyImage from '@assets/generated_images/himalayan_wildflower_honey_premium_product_shot.png';
-import gheeImage from '@assets/generated_images/pahadi_desi_ghee_premium_product_photo.png';
+import gheeImage from '@assets/Front (1)_1764044695334.png';
 import teaImage from '@assets/generated_images/himalayan_herbal_tea_premium_package_shot.png';
 import oilImage from '@assets/generated_images/cold-pressed_walnut_oil_premium_product_photo.png';
 import amlaImage from '@assets/generated_images/organic_amla_powder_premium_package_shot.png';
 import saltImage from '@assets/generated_images/himalayan_pink_salt_premium_product_photo.png';
 import shilajitImage from '@assets/generated_images/shilajit_resin_premium_product_photo.png';
 import giftSetImage from '@assets/generated_images/mountain_gift_set_premium_product_shot.png';
+import rajmaImage from '@assets/1-1 Mockup for Amazon (1)_1764044699891.png';
 
 // TODO: remove mock functionality - Mock product data
 const mockProducts: Product[] = [
@@ -143,6 +144,21 @@ const mockProducts: Product[] = [
     benefits: ['Perfect gift option', 'Eco-friendly packaging', 'Bestseller collection', 'Wellness starter pack', 'Beautiful presentation'],
     ingredients: 'Includes: Wildflower Honey 250g, Herbal Tea Blend 50g, Organic Amla Powder 100g, packaged with care',
     usage: 'A perfect introduction to Himalayan wellness. Each item has individual usage instructions. Makes an ideal gift for health-conscious loved ones.',
+  },
+  {
+    id: '9',
+    name: 'Pahadi Rajma (Kidney Beans)',
+    slug: 'pahadi-rajma',
+    tagline: 'Premium organic kidney beans from the mountains',
+    description: 'Hand-picked organic rajma (kidney beans) from mountain farms. Rich in protein and fiber, perfect for dal, curries, and salads. Freshly harvested and carefully dried to maintain nutritional value.',
+    price: '349.00',
+    weight: '500g',
+    image: rajmaImage,
+    category: 'featured',
+    inStock: 72,
+    benefits: ['High in plant protein', 'Rich in dietary fiber', 'Good for digestion', 'Heart-healthy legume', 'Sustainable farming'],
+    ingredients: '100% Organic Pahadi Rajma (Kidney Beans) from mountain farms, naturally dried',
+    usage: 'Soak overnight, boil for 20-30 minutes. Perfect for traditional Indian dal, rajma rice, or mixed vegetable curries. Use in soups and salads.',
   },
 ];
 
