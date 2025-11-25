@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertCartItemSchema } from "@shared/schema";
+import { insertCartItemSchema, insertReviewSchema, insertWishlistSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Sitemap endpoint for Google SEO
@@ -107,6 +107,48 @@ Priority: 0.8`;
   app.post("/api/cart/:sessionId/clear", async (req, res) => {
     await storage.clearCart(req.params.sessionId);
     res.json({ success: true });
+  });
+
+  // Reviews API
+  app.get("/api/reviews/:productId", async (req, res) => {
+    const reviews = await storage.getReviews(req.params.productId);
+    res.json(reviews);
+  });
+
+  app.post("/api/reviews", async (req, res) => {
+    const result = insertReviewSchema.safeParse(req.body);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    const review = await storage.addReview(result.data);
+    res.json(review);
+  });
+
+  // Wishlist API
+  app.get("/api/wishlist/:sessionId", async (req, res) => {
+    const items = await storage.getWishlistItems(req.params.sessionId);
+    const itemsWithProducts = await Promise.all(
+      items.map(async (item) => {
+        const product = await storage.getProduct(item.productId);
+        return { ...item, product };
+      })
+    );
+    res.json(itemsWithProducts);
+  });
+
+  app.post("/api/wishlist/add", async (req, res) => {
+    const result = insertWishlistSchema.safeParse(req.body);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    const wishlist = await storage.addToWishlist(result.data);
+    res.json(wishlist);
+  });
+
+  app.delete("/api/wishlist/:id", async (req, res) => {
+    await storage.removeFromWishlist(req.params.id);
+    res.json({ success: true });
+  });
+
+  app.get("/api/wishlist/check/:productId/:sessionId", async (req, res) => {
+    const inWishlist = await storage.isInWishlist(req.params.productId, req.params.sessionId);
+    res.json({ inWishlist });
   });
 
   const httpServer = createServer(app);

@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type CartItem, type InsertCartItem, type Product } from "@shared/schema";
+import { type User, type InsertUser, type CartItem, type InsertCartItem, type Product, type Review, type InsertReview, type Wishlist, type InsertWishlist } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -13,18 +13,28 @@ export interface IStorage {
   getProductBySlug(slug: string): Promise<Product | undefined>;
   getAllProducts(): Promise<Product[]>;
   addProduct(product: Product): Promise<Product>;
+  getReviews(productId: string): Promise<Review[]>;
+  addReview(review: InsertReview): Promise<Review>;
+  getWishlistItems(sessionId: string): Promise<Wishlist[]>;
+  addToWishlist(wishlist: InsertWishlist): Promise<Wishlist>;
+  removeFromWishlist(id: string): Promise<void>;
+  isInWishlist(productId: string, sessionId: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private cartItems: Map<string, CartItem>;
   private products: Map<string, Product>;
+  private reviews: Map<string, Review>;
+  private wishlists: Map<string, Wishlist>;
   private cartCounter = 0;
 
   constructor() {
     this.users = new Map();
     this.cartItems = new Map();
     this.products = new Map();
+    this.reviews = new Map();
+    this.wishlists = new Map();
     this.initializeProducts();
   }
 
@@ -221,6 +231,43 @@ export class MemStorage implements IStorage {
   async addProduct(product: Product): Promise<Product> {
     this.products.set(product.id, product);
     return product;
+  }
+
+  async getReviews(productId: string): Promise<Review[]> {
+    return Array.from(this.reviews.values()).filter(r => r.productId === productId);
+  }
+
+  async addReview(review: InsertReview): Promise<Review> {
+    const id = randomUUID();
+    const newReview: Review = { id, ...review };
+    this.reviews.set(id, newReview);
+    return newReview;
+  }
+
+  async getWishlistItems(sessionId: string): Promise<Wishlist[]> {
+    return Array.from(this.wishlists.values()).filter(w => w.sessionId === sessionId);
+  }
+
+  async addToWishlist(wishlist: InsertWishlist): Promise<Wishlist> {
+    const existing = Array.from(this.wishlists.values()).find(
+      w => w.productId === wishlist.productId && w.sessionId === wishlist.sessionId
+    );
+    if (existing) return existing;
+    
+    const id = randomUUID();
+    const newWishlist: Wishlist = { id, ...wishlist };
+    this.wishlists.set(id, newWishlist);
+    return newWishlist;
+  }
+
+  async removeFromWishlist(id: string): Promise<void> {
+    this.wishlists.delete(id);
+  }
+
+  async isInWishlist(productId: string, sessionId: string): Promise<boolean> {
+    return Array.from(this.wishlists.values()).some(
+      w => w.productId === productId && w.sessionId === sessionId
+    );
   }
 }
 
