@@ -184,12 +184,12 @@ export class MemStorage implements IStorage {
     );
     
     if (existingItem) {
-      existingItem.quantity += item.quantity;
+      existingItem.quantity += item.quantity || 1;
       return existingItem;
     }
 
     const id = randomUUID();
-    const cartItem: CartItem = { ...item, id };
+    const cartItem: CartItem = { id, ...item, quantity: item.quantity || 1 };
     this.cartItems.set(id, cartItem);
     return cartItem;
   }
