@@ -21,7 +21,12 @@ export default function Cart() {
     setSessionId(id);
   }, []);
 
-  const { data: cartItems = [], refetch } = useQuery({
+  const { data: cartItems = [] } = useQuery<CartItemWithProduct[]>({
+    queryKey: ["/api/cart", sessionId],
+    enabled: !!sessionId,
+  });
+  
+  const { refetch } = useQuery({
     queryKey: ["/api/cart", sessionId],
     enabled: !!sessionId,
   });
