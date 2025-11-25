@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { Minus, Plus, Heart, Share2, Truck, Shield, Leaf, Award, ChevronDown } from 'lucide-react';
 import Header from '@/components/Header';
@@ -6,6 +6,8 @@ import Footer from '@/components/Footer';
 import Cart from '@/components/Cart';
 import ProductCard from '@/components/ProductCard';
 import Breadcrumb from '@/components/Breadcrumb';
+import ReviewSection from '@/components/ReviewSection';
+import WishlistButton from '@/components/WishlistButton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -132,6 +134,13 @@ export default function ProductDetail() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string>('');
+  const [sessionId, setSessionId] = useState<string>('');
+
+  useEffect(() => {
+    const id = localStorage.getItem('sessionId') || crypto.randomUUID();
+    localStorage.setItem('sessionId', id);
+    setSessionId(id);
+  }, []);
 
   // Product variants (size options with prices)
   const productVariants: ProductVariant[] = [
@@ -259,15 +268,13 @@ export default function ProductDetail() {
                 <Plus className="w-4 h-4 mr-2" />
                 Add to Cart
               </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => setIsWishlisted(!isWishlisted)}
-                data-testid="button-wishlist"
-                className={isWishlisted ? 'bg-red-50 text-red-600' : ''}
-              >
-                <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-current' : ''}`} />
-              </Button>
+              {sessionId && (
+                <WishlistButton
+                  productId={mockProduct.id}
+                  sessionId={sessionId}
+                  productName={mockProduct.name}
+                />
+              )}
               <Button
                 variant="outline"
                 size="icon"
