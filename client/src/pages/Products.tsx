@@ -123,14 +123,14 @@ export default function Products() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product: Product) => (
-              <div key={product.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+              <div key={product.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
                 <Link href={`/product/${product.slug}`}>
                   <a className="block w-full h-80 bg-gray-100 overflow-hidden">
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover" data-testid={`img-product-list-${product.id}`} />
                   </a>
                 </Link>
                 
-                <div className="p-4">
+                <div className="p-4 flex flex-col flex-1">
                   <Link href={`/product/${product.slug}`}>
                     <a>
                       <h3 className="font-serif text-lg font-bold text-gray-900 mb-1">{product.name}</h3>
@@ -138,7 +138,7 @@ export default function Products() {
                     </a>
                   </Link>
                   
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mt-auto">
                     <span className="text-2xl font-bold text-orange-700">₹{product.price}</span>
                     <Button
                       size="sm"

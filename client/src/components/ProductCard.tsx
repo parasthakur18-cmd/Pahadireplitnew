@@ -24,7 +24,7 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
 
   return (
     <Card 
-      className="group overflow-hidden hover-elevate cursor-pointer transition-transform hover:scale-[1.02]"
+      className="group overflow-hidden hover-elevate cursor-pointer transition-transform hover:scale-[1.02] flex flex-col h-full"
       onClick={handleCardClick}
       data-testid={`card-product-${product.id}`}
     >
@@ -54,7 +54,7 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
         )}
       </div>
       
-      <CardContent className="p-6">
+      <CardContent className="p-6 flex-1 flex flex-col">
         <h3 
           className="font-serif text-xl font-semibold mb-2"
           data-testid={`text-product-name-${product.id}`}
@@ -67,7 +67,7 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
         >
           {product.tagline}
         </p>
-        <div className="flex items-baseline gap-2">
+        <div className="flex items-baseline gap-2 mt-auto">
           <span 
             className="text-2xl font-bold"
             data-testid={`text-product-price-${product.id}`}
