@@ -22,8 +22,8 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
       <div className="border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20 gap-4">
-            <Link href="/">
-              <a data-testid="link-home" className="flex items-center gap-2 flex-shrink-0">
+            <Link href="/" asChild>
+              <a data-testid="link-home" className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
                 <img src={logoImage} alt="The Pahadi Company" className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
                 <div className="flex flex-col leading-tight hidden sm:block flex-shrink-0">
                   <span className="font-serif text-xs font-semibold text-gray-600">The</span>
@@ -33,19 +33,19 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
             </Link>
 
             <nav className="hidden md:flex items-center gap-8 flex-1 ml-8">
-              <Link href="/">
+              <Link href="/" asChild>
                 <a data-testid="link-shop" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">Shop</a>
               </Link>
-              <Link href="/about">
+              <Link href="/about" asChild>
                 <a data-testid="link-about" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">Our Story</a>
               </Link>
-              <Link href="/sourcing">
+              <Link href="/sourcing" asChild>
                 <a data-testid="link-sourcing" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">How It's Sourced</a>
               </Link>
-              <Link href="/blog">
+              <Link href="/blog" asChild>
                 <a data-testid="link-blog" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">Blog</a>
               </Link>
-              <Link href="/contact">
+              <Link href="/contact" asChild>
                 <a data-testid="link-contact" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">Contact</a>
               </Link>
             </nav>
@@ -93,19 +93,19 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
 
           {mobileMenuOpen && (
             <nav className="md:hidden py-3 flex flex-col gap-1 border-t">
-              <Link href="/">
+              <Link href="/" asChild>
                 <a data-testid="link-mobile-shop" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:text-orange-700">Shop</a>
               </Link>
-              <Link href="/about">
+              <Link href="/about" asChild>
                 <a data-testid="link-mobile-about" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:text-orange-700">Our Story</a>
               </Link>
-              <Link href="/sourcing">
+              <Link href="/sourcing" asChild>
                 <a data-testid="link-mobile-sourcing" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:text-orange-700">How It's Sourced</a>
               </Link>
-              <Link href="/blog">
+              <Link href="/blog" asChild>
                 <a data-testid="link-mobile-blog" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:text-orange-700">Blog</a>
               </Link>
-              <Link href="/contact">
+              <Link href="/contact" asChild>
                 <a data-testid="link-mobile-contact" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:text-orange-700">Contact</a>
               </Link>
               <Button
