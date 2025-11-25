@@ -17,8 +17,9 @@ export default function Hero({ products = [], onShopClick, onStoryClick }: HeroP
 
   return (
     <section 
-      className="relative w-full h-screen overflow-y-hidden flex items-center justify-center"
+      className="relative w-full overflow-hidden flex items-center justify-center"
       style={{
+        height: 'calc(100vh - 160px)',
         backgroundImage: `url(${heroProduct.image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -29,58 +30,58 @@ export default function Hero({ products = [], onShopClick, onStoryClick }: HeroP
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
 
       {/* Main Content */}
-      <div className="relative z-10 w-full flex flex-col items-start justify-center px-4 sm:px-8 md:px-12 lg:px-16 py-12 md:py-0">
-        <div className="space-y-6 md:space-y-8 w-full max-w-3xl">
+      <div className="relative z-10 w-full h-full flex flex-col items-start justify-center px-4 sm:px-6 md:px-12 lg:px-16 py-8">
+        <div className="space-y-4 md:space-y-6 w-full max-w-3xl">
           {/* Trust Badge */}
-          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 text-xs sm:text-sm">
-            <Award className="w-4 h-4 text-orange-400 flex-shrink-0" />
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 text-xs">
+            <Award className="w-3.5 h-3.5 text-orange-400 flex-shrink-0" />
             <span className="text-white/90 font-medium">Laboratory Tested & Certified</span>
           </div>
 
           {/* Product Name as Headline */}
-          <div className="space-y-4">
+          <div className="space-y-2">
             <h1 
-              className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight"
+              className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
               data-testid="text-hero-product-name"
             >
               {heroProduct.name}
             </h1>
-            <div className="h-1 w-20 sm:w-24 md:w-32 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full" />
+            <div className="h-0.5 w-16 sm:w-20 md:w-24 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full" />
           </div>
 
           {/* Description */}
           <p 
-            className="text-base sm:text-lg text-white/90 leading-relaxed font-light"
+            className="text-sm sm:text-base text-white/90 leading-relaxed font-light"
             data-testid="text-hero-product-desc"
           >
             {heroProduct.tagline}
           </p>
 
           {/* Trust Elements */}
-          <div className="space-y-3 pt-4">
-            <div className="flex items-start gap-3">
-              <Leaf className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-              <span className="text-white/80 text-sm sm:text-base">100% Organic & Chemical-Free</span>
+          <div className="space-y-2 pt-2">
+            <div className="flex items-start gap-2">
+              <Leaf className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+              <span className="text-white/80 text-xs sm:text-sm">100% Organic & Chemical-Free</span>
             </div>
-            <div className="flex items-start gap-3">
-              <Droplet className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-              <span className="text-white/80 text-sm sm:text-base">Direct from 8,000+ ft elevation</span>
+            <div className="flex items-start gap-2">
+              <Droplet className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+              <span className="text-white/80 text-xs sm:text-sm">Direct from 8,000+ ft elevation</span>
             </div>
-            <div className="flex items-start gap-3">
-              <Award className="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" />
-              <span className="text-white/80 text-sm sm:text-base">Zero compromise on quality</span>
+            <div className="flex items-start gap-2">
+              <Award className="w-4 h-4 text-orange-400 mt-0.5 flex-shrink-0" />
+              <span className="text-white/80 text-xs sm:text-sm">Zero compromise on quality</span>
             </div>
           </div>
 
           {/* CTA */}
-          <div className="pt-6 md:pt-8">
+          <div className="pt-4">
             <Button 
-              size="lg"
+              size="sm"
               data-testid="button-shop-now"
               onClick={onShopClick}
-              className="bg-white text-gray-900 hover:bg-gray-100 font-semibold px-8 md:px-12 py-6"
+              className="bg-white text-gray-900 hover:bg-gray-100 font-semibold px-6 md:px-10 py-2"
             >
-              Shop Now <ArrowRight className="ml-2 w-5 h-5" />
+              Shop Now <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </div>
         </div>
