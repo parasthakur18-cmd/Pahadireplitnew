@@ -153,12 +153,42 @@ export class MemStorage implements IStorage {
         description: "Thoughtfully curated gift set featuring our bestsellers: Wildflower Honey (250g), Herbal Tea (50g), and Amla Powder (100g) in beautiful eco-friendly packaging.",
         price: "999.00",
         weight: "Gift Set",
-        image: "/generated_images/mountain_honey_gift_set.png",
+        image: "/generated_images/premium_himalayan_wellness_combo_gift_set.png",
         category: "featured",
         inStock: 24,
         benefits: ["Perfect gift option", "Eco-friendly packaging", "Bestseller collection", "Wellness starter pack", "Beautiful presentation"],
         ingredients: "Includes: Wildflower Honey 250g, Herbal Tea Blend 50g, Organic Amla Powder 100g, packaged with care",
         usage: "A perfect introduction to Himalayan wellness. Each item has individual usage instructions. Makes an ideal gift for health-conscious loved ones."
+      },
+      {
+        id: "9",
+        name: "Ghee & Honey Premium Combo",
+        slug: "ghee-honey-combo",
+        tagline: "Golden duo of Himalayan wellness",
+        description: "Perfect pairing of pure A2 Desi Ghee (500g) and raw Wildflower Honey (500g). This combo delivers complete nutritional synergy - ghee for cooking excellence and honey for natural energy. Lab-tested, pure, and authentic.",
+        price: "1299.00",
+        weight: "Combo Pack",
+        image: "/generated_images/ghee_and_honey_premium_combo.png",
+        category: "combos",
+        inStock: 32,
+        benefits: ["Complete wellness duo", "Perfect for cooking & health", "Lab-tested purity", "Premium packaging", "Great value combo"],
+        ingredients: "Pure A2 Desi Ghee (500g) + Raw Wildflower Honey (500g)",
+        usage: "Use ghee for high-heat cooking, add to rotis, dal or rice. Take honey daily with warm water for immunity. Perfect morning wellness ritual."
+      },
+      {
+        id: "10",
+        name: "Complete Himalayan Wellness Combo",
+        slug: "complete-wellness-combo",
+        tagline: "7-product ultimate wellness collection",
+        description: "Our most comprehensive wellness collection featuring Wildflower Honey, Desi Ghee, Herbal Tea, Walnut Oil, Amla Powder, Pink Salt, and Shilajit. Everything you need for complete family wellness in one beautiful gift box.",
+        price: "4499.00",
+        weight: "Combo Pack",
+        image: "/generated_images/all_products_himalayan_wellness_combo.png",
+        category: "combos",
+        inStock: 15,
+        benefits: ["7 premium products", "Complete wellness solution", "Perfect gift set", "Luxury packaging", "Save ₹700+ vs individual purchases"],
+        ingredients: "Includes: Honey 500g, Ghee 500g, Herbal Tea 100g, Walnut Oil 250ml, Amla Powder 200g, Pink Salt 500g, Shilajit 10g",
+        usage: "A complete Himalayan wellness starter pack. Each product can be used independently for targeted health benefits or together as a holistic wellness routine."
       }
     ];
 
