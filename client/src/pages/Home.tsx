@@ -12,15 +12,15 @@ import Cart from '@/components/Cart';
 import { useSEOMeta } from '@/components/SEOMeta';
 import type { Product } from '@shared/schema';
 
-// TODO: remove mock functionality - Import product images
-import honeyImage from '@assets/generated_images/himalayan_wildflower_honey_product.png';
-import gheeImage from '@assets/generated_images/pahadi_desi_ghee_product.png';
-import teaImage from '@assets/generated_images/himalayan_herbal_tea_blend.png';
-import oilImage from '@assets/generated_images/cold-pressed_walnut_oil_product.png';
-import amlaImage from '@assets/generated_images/organic_amla_powder_product.png';
-import saltImage from '@assets/generated_images/himalayan_pink_salt_product.png';
-import shilajitImage from '@assets/generated_images/shilajit_resin_purified_product.png';
-import giftSetImage from '@assets/generated_images/mountain_honey_gift_set.png';
+// TODO: remove mock functionality - Import product images (Premium Himalayan mountain backdrop style)
+import honeyImage from '@assets/generated_images/himalayan_wildflower_honey_premium_product_shot.png';
+import gheeImage from '@assets/generated_images/pahadi_desi_ghee_premium_product_photo.png';
+import teaImage from '@assets/generated_images/himalayan_herbal_tea_premium_package_shot.png';
+import oilImage from '@assets/generated_images/cold-pressed_walnut_oil_premium_product_photo.png';
+import amlaImage from '@assets/generated_images/organic_amla_powder_premium_package_shot.png';
+import saltImage from '@assets/generated_images/himalayan_pink_salt_premium_product_photo.png';
+import shilajitImage from '@assets/generated_images/shilajit_resin_premium_product_photo.png';
+import giftSetImage from '@assets/generated_images/mountain_gift_set_premium_product_shot.png';
 
 // TODO: remove mock functionality - Mock product data
 const mockProducts: Product[] = [
