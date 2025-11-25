@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -18,7 +19,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="font-serif text-xl font-bold mb-4">The Pahadi Company</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <img src={logoImage} alt="The Pahadi Company" className="w-12 h-12 rounded-full object-cover" />
+              <h3 className="font-serif text-lg font-bold">The Pahadi Company</h3>
+            </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
               Bringing authentic Himalayan wellness to your doorstep. Pure, sustainable, and traditionally sourced.
             </p>

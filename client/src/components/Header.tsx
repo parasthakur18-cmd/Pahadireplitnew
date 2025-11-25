@@ -3,6 +3,7 @@ import { ShoppingCart, Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
 
 interface HeaderProps {
   cartItemCount?: number;
@@ -22,13 +23,11 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link href="/">
-              <a data-testid="link-home" className="flex items-center gap-3">
-                <div className="w-11 h-11 bg-orange-700 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-serif font-bold text-base">पा</span>
-                </div>
-                <div className="flex flex-col leading-tight">
-                  <span className="font-serif text-sm font-semibold text-gray-900">The</span>
-                  <span className="font-serif text-lg font-bold text-gray-900">Pahadi</span>
+              <a data-testid="link-home" className="flex items-center gap-2">
+                <img src={logoImage} alt="The Pahadi Company" className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
+                <div className="flex flex-col leading-tight hidden sm:block">
+                  <span className="font-serif text-xs font-semibold text-gray-600">The</span>
+                  <span className="font-serif text-sm font-bold text-gray-900">Pahadi</span>
                 </div>
               </a>
             </Link>
