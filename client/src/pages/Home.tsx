@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import ProductShowcase from '@/components/ProductShowcase';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import TrustBadges from '@/components/TrustBadges';
 import SourcingSection from '@/components/SourcingSection';
@@ -267,6 +268,11 @@ export default function Home() {
           element?.scrollIntoView({ behavior: 'smooth' });
         }}
         onStoryClick={() => setLocation('/about')}
+      />
+
+      <ProductShowcase 
+        products={mockProducts}
+        onProductClick={handleAddToCart}
       />
 
       <div id="featured-products">
