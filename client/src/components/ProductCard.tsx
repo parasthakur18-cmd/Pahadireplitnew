@@ -2,7 +2,7 @@ import { useLocation } from "wouter";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Star } from "lucide-react";
 import type { Product } from "@shared/schema";
 
 interface ProductCardProps {
@@ -67,6 +67,18 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
         >
           {product.tagline}
         </p>
+        <div className="flex items-center gap-2 mb-3">
+          <div className="flex gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className={`w-4 h-4 ${i < 4 ? 'fill-orange-400 text-orange-400' : 'text-gray-300'}`}
+                data-testid={`star-${i}-product-${product.id}`}
+              />
+            ))}
+          </div>
+          <span className="text-xs text-gray-600 font-semibold" data-testid={`rating-product-${product.id}`}>(4.8)</span>
+        </div>
         <div className="flex items-baseline gap-2 mt-auto">
           <span 
             className="text-2xl font-bold"
