@@ -28,7 +28,7 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
       onClick={handleCardClick}
       data-testid={`card-product-${product.id}`}
     >
-      <div className="aspect-[4/5] overflow-hidden bg-muted">
+      <div className="w-full h-80 overflow-hidden bg-muted">
         <img 
           src={product.image}
           alt={product.name}

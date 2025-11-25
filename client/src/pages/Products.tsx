@@ -125,7 +125,7 @@ export default function Products() {
             {filteredProducts.map((product: Product) => (
               <div key={product.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
                 <Link href={`/product/${product.slug}`}>
-                  <a className="block aspect-[4/5] bg-gray-100 overflow-hidden">
+                  <a className="block w-full h-80 bg-gray-100 overflow-hidden">
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover" data-testid={`img-product-list-${product.id}`} />
                   </a>
                 </Link>
