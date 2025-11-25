@@ -21,36 +21,36 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
       
       <div className="border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-20 gap-4">
             <Link href="/">
-              <a data-testid="link-home" className="flex items-center gap-2">
+              <a data-testid="link-home" className="flex items-center gap-2 flex-shrink-0">
                 <img src={logoImage} alt="The Pahadi Company" className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
-                <div className="flex flex-col leading-tight hidden sm:block">
+                <div className="flex flex-col leading-tight hidden sm:block flex-shrink-0">
                   <span className="font-serif text-xs font-semibold text-gray-600">The</span>
                   <span className="font-serif text-sm font-bold text-gray-900">Pahadi</span>
                 </div>
               </a>
             </Link>
 
-            <nav className="hidden md:flex items-center gap-10">
+            <nav className="hidden md:flex items-center gap-8 flex-1 ml-8">
               <Link href="/">
-                <a data-testid="link-shop" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors">Shop</a>
+                <a data-testid="link-shop" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">Shop</a>
               </Link>
               <Link href="/about">
-                <a data-testid="link-about" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors">Our Story</a>
+                <a data-testid="link-about" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">Our Story</a>
               </Link>
               <Link href="/sourcing">
-                <a data-testid="link-sourcing" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors">How It's Sourced</a>
+                <a data-testid="link-sourcing" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">How It's Sourced</a>
               </Link>
               <Link href="/blog">
-                <a data-testid="link-blog" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors">Blog</a>
+                <a data-testid="link-blog" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">Blog</a>
               </Link>
               <Link href="/contact">
-                <a data-testid="link-contact" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors">Contact</a>
+                <a data-testid="link-contact" className="text-sm font-medium text-gray-700 hover:text-orange-700 transition-colors whitespace-nowrap">Contact</a>
               </Link>
             </nav>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ml-auto">
               <Button
                 size="sm"
                 data-testid="button-whatsapp"
