@@ -12,16 +12,16 @@ import Cart from '@/components/Cart';
 import { useSEOMeta } from '@/components/SEOMeta';
 import type { Product } from '@shared/schema';
 
-// TODO: remove mock functionality - Import product images (Premium Himalayan mountain backdrop style + Professional packaging)
-import honeyImage from '@assets/generated_images/himalayan_wildflower_honey_premium_product_shot.png';
-import gheeImage from '@assets/Front (1)_1764044695334.png';
-import teaImage from '@assets/generated_images/himalayan_herbal_tea_premium_package_shot.png';
-import oilImage from '@assets/generated_images/cold-pressed_walnut_oil_premium_product_photo.png';
-import amlaImage from '@assets/generated_images/organic_amla_powder_premium_package_shot.png';
-import saltImage from '@assets/generated_images/himalayan_pink_salt_premium_product_photo.png';
-import shilajitImage from '@assets/generated_images/shilajit_resin_premium_product_photo.png';
-import giftSetImage from '@assets/generated_images/mountain_gift_set_premium_product_shot.png';
-import rajmaImage from '@assets/1-1 Mockup for Amazon (1)_1764044699891.png';
+// TODO: remove mock functionality - Import product images (Mountain organic theme background style)
+import honeyImage from '@assets/generated_images/honey_jar_with_himalayan_mountain_background.png';
+import gheeImage from '@assets/generated_images/ghee_jar_with_mountain_background.png';
+import teaImage from '@assets/generated_images/herbal_tea_with_mountain_background.png';
+import oilImage from '@assets/generated_images/walnut_oil_with_mountain_background.png';
+import amlaImage from '@assets/generated_images/amla_powder_with_mountain_background.png';
+import saltImage from '@assets/generated_images/pink_salt_with_mountain_backdrop.png';
+import shilajitImage from '@assets/generated_images/shilajit_with_mountain_background.png';
+import giftSetImage from '@assets/generated_images/gift_set_with_mountain_background.png';
+import rajmaImage from '@assets/generated_images/rajma_pouch_with_organic_mountain_background.png';
 
 // TODO: remove mock functionality - Mock product data
 const mockProducts: Product[] = [
