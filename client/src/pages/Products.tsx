@@ -24,6 +24,19 @@ export default function Products() {
   });
   const [cartCount, setCartCount] = useState(0);
   const [sessionId, setSessionId] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const categories = [
+    'Liquids & Beverages',
+    'Pulses & Grains',
+    'Ghee & Honey',
+    'Combos',
+    'Corporate Gifting',
+    'Best Sellers',
+    'New Arrivals',
+    'Limited Edition',
+    'Bulk Orders'
+  ];
 
   useEffect(() => {
     const id = localStorage.getItem("sessionId") || crypto.randomUUID();
@@ -41,6 +54,10 @@ export default function Products() {
   const { data: products = [] } = useQuery<Product[]>({
     queryKey: ["/api/products"],
   });
+
+  const filteredProducts = selectedCategory
+    ? products.filter(p => p.category === selectedCategory)
+    : products;
 
   const addToCart = async (product: Product) => {
     const res = await fetch("/api/cart/add", {
@@ -73,12 +90,39 @@ export default function Products() {
           
           <div className="mb-12 flex flex-col items-center">
             <img src={logoImage} alt="The Pahadi Company" className="w-20 h-20 rounded-full mb-6 object-cover" data-testid="img-logo-products" />
-            <h1 className="font-serif text-4xl font-bold text-foreground mb-2 text-center">All Products</h1>
-            <p className="text-lg text-muted-foreground text-center">Discover our complete collection of authentic Himalayan products</p>
+            <h1 className="font-serif text-4xl font-bold text-foreground mb-2 text-center">Our Collection</h1>
+            <p className="text-lg text-muted-foreground text-center">Discover our complete range of authentic Himalayan products</p>
           </div>
 
+          {/* Category Filter */}
+          <div className="mb-8 flex flex-wrap gap-2 justify-center">
+            <Button
+              onClick={() => setSelectedCategory(null)}
+              variant={selectedCategory === null ? 'default' : 'outline'}
+              className="text-sm"
+              data-testid="button-category-all"
+            >
+              All Products
+            </Button>
+            {categories.map(cat => (
+              <Button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                variant={selectedCategory === cat ? 'default' : 'outline'}
+                className="text-sm"
+                data-testid={`button-category-${cat.toLowerCase().replace(/\s/g, '-')}`}
+              >
+                {cat}
+              </Button>
+            ))}
+          </div>
+
+          <p className="text-center text-sm text-muted-foreground mb-6">
+            Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}
+          </p>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product: Product) => (
+            {filteredProducts.map((product: Product) => (
               <div key={product.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
                 <Link href={`/product/${product.slug}`}>
                   <a className="block aspect-square bg-gray-100 overflow-hidden">
