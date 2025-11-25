@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /products
+Allow: /product/
+Disallow: /admin
+Disallow: /cart
+Sitemap: /sitemap.xml
+
+User-agent: Googlebot
+Allow: /
+Priority: 0.9
+
+User-agent: Bingbot
+Allow: /
+Priority: 0.8

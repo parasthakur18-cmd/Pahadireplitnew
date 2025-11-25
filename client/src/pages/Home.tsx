@@ -9,6 +9,7 @@ import SourcingSection from '@/components/SourcingSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import Footer from '@/components/Footer';
 import Cart from '@/components/Cart';
+import { useSEOMeta } from '@/components/SEOMeta';
 import type { Product } from '@shared/schema';
 
 // TODO: remove mock functionality - Import product images
