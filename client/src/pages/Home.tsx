@@ -262,6 +262,7 @@ export default function Home() {
       />
       
       <Hero 
+        products={mockProducts}
         onShopClick={() => {
           const element = document.getElementById('featured-products');
           element?.scrollIntoView({ behavior: 'smooth' });
