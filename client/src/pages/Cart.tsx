@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Trash2, Phone } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
 import type { CartItem, Product } from "@shared/schema";
 
 interface CartItemWithProduct extends CartItem {
@@ -68,6 +69,7 @@ export default function Cart() {
           {cartItems.length === 0 ? (
             <Card>
               <CardContent className="text-center py-12">
+                <img src={logoImage} alt="The Pahadi Company" className="w-20 h-20 rounded-full mx-auto mb-6 object-cover" data-testid="img-logo-cart" />
                 <p className="text-lg text-muted-foreground mb-6">Your cart is empty</p>
                 <Button className="bg-orange-700 hover:bg-orange-800 text-white">
                   <a href="/products">Continue Shopping</a>

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useSEOMeta } from "@/components/SEOMeta";
 import { Calendar, Clock, User } from "lucide-react";
+import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
 
 const blogContent: Record<string, any> = {
   'benefits-of-raw-himalayan-honey': {
@@ -121,12 +122,15 @@ export default function BlogPost() {
 
           <article data-testid={`article-${slug}`}>
             <header className="mb-8">
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center justify-center mb-6">
+                <img src={logoImage} alt="The Pahadi Company" className="w-16 h-16 rounded-full object-cover" data-testid="img-logo-blog-post" />
+              </div>
+              <div className="flex items-center gap-4 mb-4 justify-center">
                 <span className="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-semibold rounded-full">{post.category}</span>
                 <span className="text-sm text-muted-foreground">{post.readTime}</span>
               </div>
-              <h1 className="font-serif text-4xl font-bold text-foreground mb-4">{post.title}</h1>
-              <div className="flex items-center gap-6 text-sm text-muted-foreground">
+              <h1 className="font-serif text-4xl font-bold text-foreground mb-4 text-center">{post.title}</h1>
+              <div className="flex items-center gap-6 text-sm text-muted-foreground justify-center">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4" />
                   <span>{post.author}</span>

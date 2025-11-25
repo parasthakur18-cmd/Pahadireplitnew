@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useSEOMeta } from "@/components/SEOMeta";
 import { ArrowRight } from "lucide-react";
+import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
 
 const blogPosts = [
   {
@@ -96,7 +97,8 @@ export default function Blog() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]} />
           
-          <div className="mb-12">
+          <div className="mb-12 text-center">
+            <img src={logoImage} alt="The Pahadi Company" className="w-20 h-20 rounded-full mx-auto mb-6 object-cover" data-testid="img-logo-blog" />
             <h1 className="font-serif text-4xl font-bold text-foreground mb-4">Himalayan Wellness Blog</h1>
             <p className="text-lg text-muted-foreground">Expert guides on organic Himalayan products, natural remedies, and wellness tips backed by tradition and science.</p>
           </div>
