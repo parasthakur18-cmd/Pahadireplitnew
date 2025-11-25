@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Leaf, Award, Droplet } from "lucide-react";
+import heroImage from '@assets/generated_images/premium_minimalist_himalayan_landscape_background.png';
 import type { Product } from '@shared/schema';
 
 interface HeroProps {
@@ -9,103 +10,119 @@ interface HeroProps {
 }
 
 export default function Hero({ products = [], onShopClick, onStoryClick }: HeroProps) {
-  // Get all featured products to display on shelves
-  const allProducts = products;
-  const topShelfProducts = allProducts.slice(0, 5);
-  const bottomShelfProducts = allProducts.slice(5, 10);
+  // Get featured products (4 hero products)
+  const heroProducts = products.slice(0, 4);
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden" style={{
-      backgroundImage: `linear-gradient(135deg, #4a7c59 0%, #5a8f6b 50%, #6b9a6b 100%)`,
-    }}>
-      {/* Natural grass/nature texture background */}
+    <section className="relative min-h-screen w-full overflow-hidden flex items-center">
+      {/* Premium background with elegant overlay */}
       <div 
-        className="absolute inset-0 opacity-50"
+        className="absolute inset-0 opacity-70"
         style={{
-          backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,.05) 2px, rgba(255,255,255,.05) 4px), 
-                           repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.03) 2px, rgba(255,255,255,.03) 4px)`,
+          backgroundImage: `url(${heroImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      
+      {/* Elegant gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/20" />
+
+      {/* Subtle noise texture */}
+      <div className="absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
         }}
       />
 
-      {/* Main shelf display */}
-      <div className="relative z-10 w-full h-screen flex flex-col items-center justify-center px-4 md:px-12">
-        
-        {/* Top Shelf */}
-        <div className="relative w-full max-w-6xl mb-20 md:mb-32">
-          {/* Wooden shelf visual */}
-          <div className="relative bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800 rounded-lg shadow-2xl" style={{
-            height: '8px',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
-          }}>
-            {/* Shelf wood texture */}
-            <div className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139,90,43,.3) 2px, rgba(139,90,43,.3) 4px)`,
-              }}
-            />
-          </div>
+      {/* Main Content Container */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          
+          {/* Left: Premium Content */}
+          <div className="space-y-8 max-w-lg">
+            {/* Trust Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+              <Award className="w-4 h-4 text-orange-400" />
+              <span className="text-sm text-white/90 font-medium">Laboratory Tested & Certified</span>
+            </div>
 
-          {/* Products on top shelf */}
-          <div className="absolute -top-32 md:-top-40 left-0 right-0 flex items-flex-end justify-center gap-3 md:gap-6 px-2">
-            {topShelfProducts.map((product, idx) => (
-              <div key={product.id} className="flex flex-col items-center group" data-testid={`hero-product-${idx}`}>
-                <div className="relative w-20 h-32 md:w-28 md:h-48 bg-white/10 rounded-lg overflow-hidden border border-white/20 group-hover:border-white/40 transition-all transform group-hover:-translate-y-2 group-hover:shadow-2xl" 
-                  style={{
-                    transform: `translateY(${(idx - 2) * 8}px)`,
-                  }}
-                >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    data-testid={`hero-img-${idx}`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                </div>
-                <div className="mt-2 text-center">
-                  <p className="text-white text-xs md:text-sm font-semibold leading-tight" data-testid={`hero-name-${idx}`}>
-                    {product.name.split(' ')[0]}
-                  </p>
-                </div>
+            {/* Headline - Benefit-driven, emotional */}
+            <div>
+              <h1 
+                className="font-serif text-5xl md:text-6xl font-bold text-white mb-4 leading-tight"
+                data-testid="text-hero-headline"
+              >
+                Experience Pure Himalayan Wellness
+              </h1>
+              <div className="h-1 w-20 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full" />
+            </div>
+
+            {/* Subheadline - Clear value proposition */}
+            <p 
+              className="text-lg text-white/90 leading-relaxed font-light"
+              data-testid="text-hero-subheadline"
+            >
+              Authentic products from mountain farms. Lab-tested. Sustainably sourced. Direct to your door.
+            </p>
+
+            {/* Trust Elements */}
+            <div className="space-y-3 pt-4">
+              <div className="flex items-start gap-3">
+                <Leaf className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                <span className="text-white/80">100% Organic & Chemical-Free</span>
               </div>
-            ))}
-          </div>
-        </div>
+              <div className="flex items-start gap-3">
+                <Droplet className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
+                <span className="text-white/80">Direct from 8,000+ ft elevation</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <Award className="w-5 h-5 text-orange-400 mt-1 flex-shrink-0" />
+                <span className="text-white/80">Zero compromise on quality</span>
+              </div>
+            </div>
 
-        {/* Bottom Shelf */}
-        <div className="relative w-full max-w-6xl mt-12">
-          {/* Wooden shelf visual */}
-          <div className="relative bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800 rounded-lg shadow-2xl" style={{
-            height: '8px',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
-          }}>
-            <div className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139,90,43,.3) 2px, rgba(139,90,43,.3) 4px)`,
-              }}
-            />
+            {/* Single Primary CTA */}
+            <div className="pt-4">
+              <Button 
+                size="lg"
+                data-testid="button-shop-now"
+                onClick={onShopClick}
+                className="text-base bg-orange-600 hover:bg-orange-700 text-white font-semibold px-10 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all"
+              >
+                Shop Our Collection <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </div>
           </div>
 
-          {/* Products on bottom shelf */}
-          <div className="absolute -top-32 md:-top-40 left-0 right-0 flex items-flex-end justify-center gap-3 md:gap-6 px-2">
-            {bottomShelfProducts.map((product, idx) => (
-              <div key={product.id} className="flex flex-col items-center group" data-testid={`hero-product-bottom-${idx}`}>
-                <div className="relative w-20 h-32 md:w-28 md:h-48 bg-white/10 rounded-lg overflow-hidden border border-white/20 group-hover:border-white/40 transition-all transform group-hover:-translate-y-2 group-hover:shadow-2xl"
-                  style={{
-                    transform: `translateY(${(idx - 2) * 8}px)`,
-                  }}
-                >
+          {/* Right: Product Showcase Grid */}
+          <div className="grid grid-cols-2 gap-6">
+            {heroProducts.map((product, idx) => (
+              <div
+                key={product.id}
+                className="group relative overflow-hidden rounded-lg backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all hover:shadow-2xl cursor-pointer"
+                data-testid={`hero-product-card-${idx}`}
+              >
+                {/* Product Image Container */}
+                <div className="relative w-full aspect-square bg-white/5 overflow-hidden">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    data-testid={`hero-img-bottom-${idx}`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    data-testid={`hero-product-img-${idx}`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  {/* Elegant overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
-                <div className="mt-2 text-center">
-                  <p className="text-white text-xs md:text-sm font-semibold leading-tight" data-testid={`hero-name-bottom-${idx}`}>
-                    {product.name.split(' ')[0]}
+
+                {/* Product Info - Always visible */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                  <h3 className="text-white font-serif text-sm md:text-base font-semibold leading-tight" data-testid={`hero-product-name-${idx}`}>
+                    {product.name}
+                  </h3>
+                  <p className="text-orange-300 text-xs md:text-sm font-bold mt-2" data-testid={`hero-product-price-${idx}`}>
+                    ₹{product.price}
                   </p>
                 </div>
               </div>
@@ -114,25 +131,15 @@ export default function Hero({ products = [], onShopClick, onStoryClick }: HeroP
         </div>
       </div>
 
-      {/* CTA Buttons - Fixed Bottom */}
-      <div className="absolute bottom-8 left-0 right-0 flex flex-col sm:flex-row gap-4 justify-center z-20">
-        <Button 
-          size="lg"
-          data-testid="button-shop-now"
-          onClick={onShopClick}
-          className="text-base bg-orange-600 hover:bg-orange-700 text-white font-semibold px-8"
-        >
-          Shop Now <ArrowRight className="ml-2 w-5 h-5" />
-        </Button>
-        <Button 
-          size="lg"
-          variant="outline"
-          data-testid="button-our-story"
+      {/* Bottom brand story link */}
+      <div className="absolute bottom-8 right-8 z-20">
+        <button
           onClick={onStoryClick}
-          className="text-base font-semibold border-2 border-white text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm"
+          className="text-white/80 hover:text-white text-sm font-medium flex items-center gap-2 transition-colors"
+          data-testid="button-our-story-link"
         >
-          Our Story
-        </Button>
+          Our Story <ArrowRight className="w-4 h-4" />
+        </button>
       </div>
     </section>
   );
