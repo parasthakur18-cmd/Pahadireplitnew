@@ -37,7 +37,7 @@ export default function Products() {
     setCartCount(items.length);
   };
 
-  const { data: products = [] } = useQuery({
+  const { data: products = [] } = useQuery<Product[]>({
     queryKey: ["/api/products"],
   });
 

@@ -4,6 +4,72 @@ import { storage } from "./storage";
 import { insertCartItemSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Sitemap endpoint for Google SEO
+  app.get("/sitemap.xml", async (req, res) => {
+    const products = await storage.getAllProducts();
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
+    xml += '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n';
+    
+    // Home page
+    xml += '  <url>\n';
+    xml += `    <loc>${baseUrl}/</loc>\n`;
+    xml += `    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>\n`;
+    xml += '    <changefreq>weekly</changefreq>\n';
+    xml += '    <priority>1.0</priority>\n';
+    xml += '  </url>\n';
+    
+    // Products listing page
+    xml += '  <url>\n';
+    xml += `    <loc>${baseUrl}/products</loc>\n`;
+    xml += `    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>\n`;
+    xml += '    <changefreq>daily</changefreq>\n';
+    xml += '    <priority>0.8</priority>\n';
+    xml += '  </url>\n';
+    
+    // Individual product pages
+    products.forEach(product => {
+      xml += '  <url>\n';
+      xml += `    <loc>${baseUrl}/product/${product.slug}</loc>\n`;
+      xml += `    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>\n`;
+      xml += '    <changefreq>weekly</changefreq>\n';
+      xml += '    <priority>0.7</priority>\n';
+      if (product.image) {
+        xml += '    <image:image>\n';
+        xml += `      <image:loc>${product.image}</image:loc>\n`;
+        xml += `      <image:title>${product.name}</image:title>\n`;
+        xml += '    </image:image>\n';
+      }
+      xml += '  </url>\n';
+    });
+    
+    xml += '</urlset>';
+    
+    res.type('application/xml').send(xml);
+  });
+
+  // Robots.txt
+  app.get("/robots.txt", (req, res) => {
+    const robotsTxt = `User-agent: *
+Allow: /
+Allow: /products
+Allow: /product/
+Disallow: /admin
+Disallow: /cart
+Sitemap: ${req.protocol}://${req.get('host')}/sitemap.xml
+
+User-agent: Googlebot
+Allow: /
+Priority: 0.9
+
+User-agent: Bingbot
+Allow: /
+Priority: 0.8`;
+    res.type('text/plain').send(robotsTxt);
+  });
+
   app.get("/api/products", async (req, res) => {
     const products = await storage.getAllProducts();
     res.json(products);

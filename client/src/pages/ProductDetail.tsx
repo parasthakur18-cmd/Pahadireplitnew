@@ -124,6 +124,39 @@ export default function ProductDetail() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
+  // SEO Meta Tags for Product Detail
+  useSEOMeta({
+    title: `${mockProduct.name} - Buy Online | The पहाड़ी Company`,
+    description: `${mockProduct.name} - ${mockProduct.tagline}. ${mockProduct.description} Pure, organic, lab-tested. ₹${mockProduct.price}. Free shipping on orders over ₹999.`,
+    keywords: `${mockProduct.name}, himalayan products, organic products, pahadi products, buy online`,
+    image: mockProduct.image,
+    url: window.location.href,
+    type: 'product',
+    schemaMarkup: {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      'name': mockProduct.name,
+      'description': mockProduct.description,
+      'image': mockProduct.image,
+      'brand': {
+        '@type': 'Brand',
+        'name': 'The Pahadi Company'
+      },
+      'offers': {
+        '@type': 'Offer',
+        'price': mockProduct.price,
+        'priceCurrency': 'INR',
+        'availability': 'https://schema.org/InStock',
+        'url': window.location.href
+      },
+      'aggregateRating': {
+        '@type': 'AggregateRating',
+        'ratingValue': '4.8',
+        'reviewCount': '47'
+      }
+    }
+  });
+
   const handleAddToCart = () => {
     const cartItem = { ...mockProduct, quantity };
     setCartItems(prev => {
