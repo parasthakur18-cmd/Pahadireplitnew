@@ -96,32 +96,28 @@ export default function Hero({ products = [], onShopClick, onStoryClick }: HeroP
             </div>
           </div>
 
-          {/* Right: Product Showcase Grid */}
+          {/* Right: Product Showcase Grid - BAROSI Style */}
           <div className="grid grid-cols-2 gap-6">
             {heroProducts.map((product, idx) => (
               <div
                 key={product.id}
-                className="group relative overflow-hidden rounded-lg backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all hover:shadow-2xl cursor-pointer"
+                className="group relative overflow-hidden rounded-2xl cursor-pointer h-72 md:h-96"
+                style={{
+                  backgroundImage: `url(${product.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
                 data-testid={`hero-product-card-${idx}`}
               >
-                {/* Product Image Container */}
-                <div className="relative w-full aspect-square bg-white/5 overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    data-testid={`hero-product-img-${idx}`}
-                  />
-                  {/* Elegant overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
+                {/* Gradient overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent group-hover:from-black/80 transition-all duration-300" />
 
-                {/* Product Info - Always visible */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                  <h3 className="text-white font-serif text-sm md:text-base font-semibold leading-tight" data-testid={`hero-product-name-${idx}`}>
+                {/* Product Info - Overlaid on image */}
+                <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-6">
+                  <h3 className="text-white font-serif text-xl md:text-2xl font-bold leading-tight" data-testid={`hero-product-name-${idx}`}>
                     {product.name}
                   </h3>
-                  <p className="text-orange-300 text-xs md:text-sm font-bold mt-2" data-testid={`hero-product-price-${idx}`}>
+                  <p className="text-orange-300 text-lg md:text-xl font-bold mt-3" data-testid={`hero-product-price-${idx}`}>
                     ₹{product.price}
                   </p>
                 </div>
