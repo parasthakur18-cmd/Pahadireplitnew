@@ -14,13 +14,13 @@ interface CartItemWithProduct extends CartItem {
 }
 
 export default function Cart() {
-  const [sessionId, setSessionId] = useState("");
-
-  useEffect(() => {
-    const id = localStorage.getItem("sessionId") || crypto.randomUUID();
-    localStorage.setItem("sessionId", id);
-    setSessionId(id);
-  }, []);
+  const [sessionId, setSessionId] = useState(() => {
+    const id = typeof window !== 'undefined' ? (localStorage.getItem("sessionId") || crypto.randomUUID()) : crypto.randomUUID();
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("sessionId", id);
+    }
+    return id;
+  });
 
   const { data: cartItems = [] } = useQuery<CartItemWithProduct[]>({
     queryKey: ["/api/cart", sessionId],
@@ -62,11 +62,9 @@ export default function Cart() {
     return sum + (price * item.quantity);
   }, 0);
 
-  if (!sessionId) return null;
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Header cartItemCount={cartItems.length} />
+      <Header cartItemCount={cartItems.length} onCartClick={() => {}} />
       
       <main className="flex-1">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
