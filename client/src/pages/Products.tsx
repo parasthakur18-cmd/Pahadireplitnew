@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
@@ -25,6 +25,7 @@ export default function Products() {
   const [cartCount, setCartCount] = useState(0);
   const [sessionId, setSessionId] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const categories = [
     'Liquids & Beverages',
@@ -59,12 +60,8 @@ export default function Products() {
     ? products.filter(p => p.category === selectedCategory)
     : products;
 
-  const addToCart = async (product: Product) => {
-    if (!sessionId) {
-      alert('Initializing cart...');
-      return;
-    }
-    try {
+  const addToCartMutation = useMutation({
+    mutationFn: async (product: Product) => {
       const res = await fetch("/api/cart/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -74,19 +71,27 @@ export default function Products() {
           sessionId
         })
       });
-      if (res.ok) {
-        setCartCount(c => c + 1);
-        alert(`✓ ${product.name} added to cart!`);
-        console.log('Added to cart:', product.name);
-      } else {
-        const error = await res.text();
-        alert(`Error adding to cart: ${error}`);
-        console.error('Add to cart failed:', error);
-      }
-    } catch (err) {
-      alert('Error adding to cart');
-      console.error('Add to cart error:', err);
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    },
+    onSuccess: (data, product) => {
+      setCartCount(c => c + 1);
+      queryClient.invalidateQueries({ queryKey: ["/api/cart", sessionId] });
+      alert(`✓ ${product.name} added to cart!`);
+      console.log('Added to cart:', product.name);
+    },
+    onError: (error) => {
+      alert(`Error: ${error instanceof Error ? error.message : 'Failed to add to cart'}`);
+      console.error('Add to cart error:', error);
     }
+  });
+
+  const addToCart = (product: Product) => {
+    if (!sessionId) {
+      alert('Initializing cart...');
+      return;
+    }
+    addToCartMutation.mutate(product);
   };
 
   return (
