@@ -26,7 +26,11 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
               <a data-testid="link-home" className="flex items-center gap-3 flex-shrink-0 hover:opacity-80 transition-opacity">
                 <img src={logoImage} alt="The Pahadi Company" className="w-14 h-14 rounded-full object-cover flex-shrink-0" />
                 <div className="flex flex-col leading-tight hidden sm:block flex-shrink-0">
-                  <span className="font-serif text-xs font-semibold text-gray-500">THE PAHADI</span>
+                  <div className="font-serif text-xs font-semibold flex items-center gap-1">
+                    <span className="text-gray-700">The</span>
+                    <span className="text-orange-700 font-bold">पहाड़ी</span>
+                    <span className="text-gray-700">Company</span>
+                  </div>
                   <span className="font-serif text-xs font-light text-gray-600">Himalayan Essentials</span>
                 </div>
               </a>

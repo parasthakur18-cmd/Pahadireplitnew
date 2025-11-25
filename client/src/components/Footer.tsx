@@ -21,7 +21,11 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <img src={logoImage} alt="The Pahadi Company" className="w-12 h-12 rounded-full object-cover" />
-              <h3 className="font-serif text-lg font-bold">The Pahadi Company</h3>
+              <h3 className="font-serif text-lg font-bold flex items-center gap-0.5">
+                <span>The</span>
+                <span className="text-orange-700">पहाड़ी</span>
+                <span>Co.</span>
+              </h3>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
               Bringing authentic Himalayan wellness to your doorstep. Pure, sustainable, and traditionally sourced.
