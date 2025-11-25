@@ -15,13 +15,13 @@ import TestimonialCard from '@/components/TestimonialCard';
 import { useSEOMeta } from '@/components/SEOMeta';
 import type { Product } from '@shared/schema';
 
-// TODO: remove mock - Import images (Mountain organic theme background style)
-import honeyImage from '@assets/generated_images/honey_jar_with_himalayan_mountain_background.png';
-import gheeImage from '@assets/generated_images/ghee_jar_with_mountain_background.png';
-import teaImage from '@assets/generated_images/herbal_tea_with_mountain_background.png';
-import oilImage from '@assets/generated_images/walnut_oil_with_mountain_background.png';
+// TODO: remove mock - Import images (Consistent sized premium products)
+import honeyImage from '@assets/generated_images/wildflower_honey_premium_product.png';
+import gheeImage from '@assets/generated_images/pahadi_desi_ghee_premium_product.png';
+import teaImage from '@assets/generated_images/himalayan_herbal_tea_premium.png';
+import oilImage from '@assets/generated_images/walnut_oil_premium_product.png';
 import farmerImage from '@assets/generated_images/honey_sourcing_farmer_photo.png';
-import buranshImage from '@assets/1-1_1764044922856.png';
+import buranshImage from '@assets/generated_images/buransh_juice_premium_product.png';
 
 // TODO: remove mock - Sample product data (would come from API/route params in real app)
 const mockProduct: Product = {

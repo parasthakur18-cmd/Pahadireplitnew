@@ -12,17 +12,17 @@ import Cart from '@/components/Cart';
 import { useSEOMeta } from '@/components/SEOMeta';
 import type { Product } from '@shared/schema';
 
-// TODO: remove mock functionality - Import product images (Mountain organic theme background style)
-import honeyImage from '@assets/generated_images/honey_jar_with_himalayan_mountain_background.png';
-import gheeImage from '@assets/generated_images/ghee_jar_with_mountain_background.png';
-import teaImage from '@assets/generated_images/herbal_tea_with_mountain_background.png';
-import oilImage from '@assets/generated_images/walnut_oil_with_mountain_background.png';
-import amlaImage from '@assets/generated_images/amla_powder_with_mountain_background.png';
-import saltImage from '@assets/generated_images/pink_salt_with_mountain_backdrop.png';
-import shilajitImage from '@assets/generated_images/shilajit_with_mountain_background.png';
-import giftSetImage from '@assets/generated_images/gift_set_with_mountain_background.png';
-import rajmaImage from '@assets/generated_images/rajma_pouch_with_organic_mountain_background.png';
-import buranshImage from '@assets/1-1_1764044922856.png';
+// TODO: remove mock functionality - Import product images (Consistent sized premium products)
+import honeyImage from '@assets/generated_images/wildflower_honey_premium_product.png';
+import gheeImage from '@assets/generated_images/pahadi_desi_ghee_premium_product.png';
+import teaImage from '@assets/generated_images/himalayan_herbal_tea_premium.png';
+import oilImage from '@assets/generated_images/walnut_oil_premium_product.png';
+import amlaImage from '@assets/generated_images/amla_powder_premium_product.png';
+import saltImage from '@assets/generated_images/pink_salt_premium_product.png';
+import shilajitImage from '@assets/generated_images/shilajit_resin_premium_product.png';
+import giftSetImage from '@assets/generated_images/gift_set_premium_combo.png';
+import rajmaImage from '@assets/generated_images/rajma_premium_product.png';
+import buranshImage from '@assets/generated_images/buransh_juice_premium_product.png';
 
 // TODO: remove mock functionality - Mock product data
 const mockProducts: Product[] = [
