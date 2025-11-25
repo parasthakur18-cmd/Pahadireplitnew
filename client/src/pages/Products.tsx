@@ -62,6 +62,14 @@ export default function Products() {
       
       <main className="flex-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <nav className="mb-8" data-testid="breadcrumb">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+              <a href="/" className="text-orange-700 hover:text-orange-800 transition-colors">Home</a>
+              <span>›</span>
+              <span className="text-foreground font-medium">Products</span>
+            </div>
+          </nav>
+          
           <div className="mb-8">
             <h1 className="font-serif text-4xl font-bold text-foreground mb-2">All Products</h1>
             <p className="text-lg text-muted-foreground">Discover our complete collection of authentic Himalayan products</p>

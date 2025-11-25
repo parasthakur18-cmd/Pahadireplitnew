@@ -8,6 +8,8 @@ import ProductDetail from "@/pages/ProductDetail";
 import Products from "@/pages/Products";
 import Cart from "@/pages/Cart";
 import HeaderShowcase from "@/pages/HeaderShowcase";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -17,6 +19,8 @@ function Router() {
       <Route path="/products" component={Products} />
       <Route path="/product/:slug" component={ProductDetail} />
       <Route path="/cart" component={Cart} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/headers" component={HeaderShowcase} />
       <Route component={NotFound} />
     </Switch>

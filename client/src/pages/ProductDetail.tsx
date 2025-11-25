@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Cart from '@/components/Cart';
 import ProductCard from '@/components/ProductCard';
+import Breadcrumb from '@/components/Breadcrumb';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -198,6 +199,12 @@ export default function ProductDetail() {
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Breadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: 'Products', href: '/products' },
+          { label: mockProduct.name }
+        ]} />
+        
         {/* Product Hero Section */}
         <div className="grid md:grid-cols-2 gap-12 mb-16">
           <div>
