@@ -46,6 +46,7 @@ const mockProduct: Product = {
   ],
   ingredients: '100% Pure Raw Wildflower Honey from Himalayan flora including rhododendron, wild roses, and mountain herbs',
   usage: 'Take 1-2 teaspoons daily on empty stomach or add to warm (not hot) beverages. Perfect as a natural sweetener in tea, smoothies, or drizzled over yogurt.',
+  variants: null,
 };
 
 // TODO: remove mock - Related products
@@ -64,6 +65,7 @@ const relatedProducts: Product[] = [
     benefits: [],
     ingredients: 'Pure A2 milk',
     usage: 'Cooking',
+    variants: null,
   },
   {
     id: '3',
@@ -79,6 +81,7 @@ const relatedProducts: Product[] = [
     benefits: [],
     ingredients: 'Herbs',
     usage: 'Daily',
+    variants: null,
   },
   {
     id: '4',
@@ -94,6 +97,7 @@ const relatedProducts: Product[] = [
     benefits: [],
     ingredients: 'Walnuts',
     usage: 'Cooking',
+    variants: null,
   },
 ];
 
