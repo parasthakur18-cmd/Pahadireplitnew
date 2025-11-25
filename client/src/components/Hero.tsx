@@ -9,36 +9,73 @@ interface HeroProps {
 
 export default function Hero({ onShopClick, onStoryClick }: HeroProps) {
   return (
-    <section className="relative h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden bg-gradient-to-b from-[#6b9a6b] to-[#588a58]">
+      {/* Background with natural imagery and dotted border effect */}
       <div 
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 opacity-70"
         style={{
           backgroundImage: `url(${heroImage})`,
-          filter: 'brightness(0.7)'
+          backgroundSize: 'cover',
+          backgroundPosition: 'center right',
         }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
-      </div>
+      />
+      
+      {/* Dotted border overlay effect */}
+      <div className="absolute inset-0 opacity-40"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundSize: '20px 20px'
+        }}
+      />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-        <h1 
-          data-testid="text-hero-title"
-          className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6"
-        >
-          Pure Himalayan Goodness
-        </h1>
-        <p 
-          data-testid="text-hero-subtitle"
-          className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed"
-        >
-          Discover authentic honey, ghee, and wellness products sourced directly from the mountains. 100% pure, lab tested, and sustainably harvested.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      {/* Main Content Grid */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-20">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          
+          {/* Left Side - Premium Text Box */}
+          <div className="flex items-center justify-center">
+            <div className="bg-amber-50/95 backdrop-blur-sm border-4 border-dashed border-amber-900/30 p-8 md:p-12 text-center max-w-sm">
+              <h2 
+                className="font-serif text-3xl md:text-4xl font-bold text-amber-900 mb-4 leading-tight"
+                data-testid="text-hero-tagline"
+              >
+                PURE, AUTHENTIC & HIMALAYAN
+              </h2>
+              <div className="flex justify-center gap-2 mb-4">
+                <span className="text-amber-700 text-lg">✦</span>
+                <span className="text-amber-700 text-lg">✦</span>
+                <span className="text-amber-700 text-lg">✦</span>
+              </div>
+              <p 
+                className="text-amber-900/80 text-sm md:text-base leading-relaxed"
+                data-testid="text-hero-description"
+              >
+                Direct from mountain farms. Lab-tested. Sustainably harvested. Zero compromise on quality.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Side - Product Display */}
+          <div className="flex items-center justify-center">
+            <div className="relative w-full h-[300px] md:h-[400px]">
+              <img 
+                src={heroImage}
+                alt="The Pahadi Company - Premium Himalayan Products"
+                className="w-full h-full object-cover rounded-lg shadow-2xl"
+                data-testid="img-hero-products"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Buttons - Below Grid */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12 md:mt-16">
           <Button 
             size="lg"
             data-testid="button-shop-now"
             onClick={onShopClick}
-            className="text-base"
+            className="text-base bg-orange-600 hover:bg-orange-700 text-white font-semibold px-8"
           >
             Shop Now <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
@@ -47,7 +84,7 @@ export default function Hero({ onShopClick, onStoryClick }: HeroProps) {
             variant="outline"
             data-testid="button-our-story"
             onClick={onStoryClick}
-            className="text-base bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20"
+            className="text-base font-semibold border-2 border-amber-900/40 text-amber-900 bg-amber-50/50 hover:bg-amber-50 backdrop-blur-sm"
           >
             Our Story
           </Button>
