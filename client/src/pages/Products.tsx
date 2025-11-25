@@ -5,9 +5,22 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
+import { useSEOMeta } from "@/components/SEOMeta";
 import type { Product } from "@shared/schema";
 
 export default function Products() {
+  useSEOMeta({
+    title: "Organic Himalayan Products - Buy Online | The पहाड़ी Company",
+    description: "Shop authentic organic Himalayan products online. Premium honey, ghee, herbal tea, walnut oil, amla powder, salt & shilajit. Free shipping, lab-tested Pahadi products.",
+    keywords: "buy himalayan products online, organic products, pahadi products, himalayan honey, desi ghee, herbal tea, walnut oil, organic amla powder, himalayan salt, shilajit",
+    url: window.location.href,
+    schemaMarkup: {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      'name': 'Organic Himalayan Products',
+      'description': 'Premium collection of authentic Himalayan organic products'
+    }
+  });
   const [cartCount, setCartCount] = useState(0);
   const [sessionId, setSessionId] = useState("");
 

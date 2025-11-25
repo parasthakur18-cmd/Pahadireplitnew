@@ -47,26 +47,26 @@ export function useSEOMeta({
 
     // Add Open Graph tags
     const ogTitle = document.createElement('meta');
-    ogTitle.property = 'og:title';
+    ogTitle.setAttribute('property', 'og:title');
     ogTitle.content = title;
     ogTitle.setAttribute('data-seo', 'true');
     document.head.appendChild(ogTitle);
 
     const ogDesc = document.createElement('meta');
-    ogDesc.property = 'og:description';
+    ogDesc.setAttribute('property', 'og:description');
     ogDesc.content = description;
     ogDesc.setAttribute('data-seo', 'true');
     document.head.appendChild(ogDesc);
 
     const ogType = document.createElement('meta');
-    ogType.property = 'og:type';
+    ogType.setAttribute('property', 'og:type');
     ogType.content = type;
     ogType.setAttribute('data-seo', 'true');
     document.head.appendChild(ogType);
 
     if (image) {
       const ogImage = document.createElement('meta');
-      ogImage.property = 'og:image';
+      ogImage.setAttribute('property', 'og:image');
       ogImage.content = image;
       ogImage.setAttribute('data-seo', 'true');
       document.head.appendChild(ogImage);
@@ -74,7 +74,7 @@ export function useSEOMeta({
 
     if (url) {
       const ogUrl = document.createElement('meta');
-      ogUrl.property = 'og:url';
+      ogUrl.setAttribute('property', 'og:url');
       ogUrl.content = url;
       ogUrl.setAttribute('data-seo', 'true');
       document.head.appendChild(ogUrl);

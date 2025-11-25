@@ -11,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import TestimonialCard from '@/components/TestimonialCard';
+import { useSEOMeta } from '@/components/SEOMeta';
 import type { Product } from '@shared/schema';
 
 // TODO: remove mock - Import images
