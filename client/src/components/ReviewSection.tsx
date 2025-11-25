@@ -20,7 +20,7 @@ export default function ReviewSection({ productId, sessionId }: ReviewSectionPro
   });
 
   const addReviewMutation = useMutation({
-    mutationFn: async (data) => {
+    mutationFn: async (data: typeof formData) => {
       const res = await fetch('/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
