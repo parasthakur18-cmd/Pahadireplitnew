@@ -21,6 +21,7 @@ import gheeImage from '@assets/generated_images/ghee_jar_with_mountain_backgroun
 import teaImage from '@assets/generated_images/herbal_tea_with_mountain_background.png';
 import oilImage from '@assets/generated_images/walnut_oil_with_mountain_background.png';
 import farmerImage from '@assets/generated_images/honey_sourcing_farmer_photo.png';
+import buranshImage from '@assets/1-1_1764044922856.png';
 
 // TODO: remove mock - Sample product data (would come from API/route params in real app)
 const mockProduct: Product = {

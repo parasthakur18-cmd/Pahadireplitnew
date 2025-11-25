@@ -22,6 +22,7 @@ import saltImage from '@assets/generated_images/pink_salt_with_mountain_backdrop
 import shilajitImage from '@assets/generated_images/shilajit_with_mountain_background.png';
 import giftSetImage from '@assets/generated_images/gift_set_with_mountain_background.png';
 import rajmaImage from '@assets/generated_images/rajma_pouch_with_organic_mountain_background.png';
+import buranshImage from '@assets/1-1_1764044922856.png';
 
 // TODO: remove mock functionality - Mock product data
 const mockProducts: Product[] = [
@@ -159,6 +160,21 @@ const mockProducts: Product[] = [
     benefits: ['High in plant protein', 'Rich in dietary fiber', 'Good for digestion', 'Heart-healthy legume', 'Sustainable farming'],
     ingredients: '100% Organic Pahadi Rajma (Kidney Beans) from mountain farms, naturally dried',
     usage: 'Soak overnight, boil for 20-30 minutes. Perfect for traditional Indian dal, rajma rice, or mixed vegetable curries. Use in soups and salads.',
+  },
+  {
+    id: '10',
+    name: 'Pahadi Buransh Juice',
+    slug: 'pahadi-buransh-juice',
+    tagline: 'Pure organic mountain flower juice with incredible health benefits',
+    description: 'Premium organic Buransh (Rhododendron) juice freshly extracted from high-altitude Himalayan mountains. Buransh is a medicinal flower known for its anti-inflammatory, antimicrobial, and immune-boosting properties. Pure, natural, and never concentrated.',
+    price: '599.00',
+    weight: '250ml',
+    image: buranshImage,
+    category: 'wellness',
+    inStock: 38,
+    benefits: ['Powerful anti-inflammatory', 'Boosts immunity naturally', 'Aids respiratory health', 'Rich in antioxidants', 'Traditional Himalayan remedy', 'Detoxifying properties'],
+    ingredients: '100% Pure Organic Buransh (Rhododendron) Flower Juice from high-altitude Himalayan mountains, no preservatives or added sugars',
+    usage: 'Take 30-50ml daily, diluted with water or consume directly. Can be taken in morning on empty stomach for best results. Perfect for boosting immunity during changing seasons. Shake well before use.',
   },
 ];
 
