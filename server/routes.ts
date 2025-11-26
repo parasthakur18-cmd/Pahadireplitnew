@@ -2,6 +2,12 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertCartItemSchema, insertReviewSchema, insertWishlistSchema, insertOrderSchema } from "@shared/schema";
+import Razorpay from "razorpay";
+
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Sitemap endpoint for Google SEO
@@ -213,6 +219,25 @@ Priority: 0.8`;
     const order = await storage.updateOrderStatus(req.params.id, req.body.status);
     if (!order) return res.status(404).json({ error: "Order not found" });
     res.json(order);
+  });
+
+  // Razorpay order creation endpoint
+  app.post("/api/razorpay/order", async (req, res) => {
+    try {
+      const { amount, sessionId } = req.body;
+      if (!amount || !sessionId) {
+        return res.status(400).json({ error: "Missing amount or sessionId" });
+      }
+      const order = await razorpay.orders.create({
+        amount: Math.round(amount),
+        currency: "INR",
+        receipt: sessionId,
+      });
+      res.json(order);
+    } catch (error) {
+      console.error("Razorpay error:", error);
+      res.status(500).json({ error: "Failed to create order" });
+    }
   });
 
   const httpServer = createServer(app);

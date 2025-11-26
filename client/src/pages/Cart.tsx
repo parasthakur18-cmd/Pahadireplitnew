@@ -3,9 +3,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Trash2, Phone } from "lucide-react";
+import { Trash2, Phone, CreditCard } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useSEOMeta } from "@/components/SEOMeta";
+import { useToast } from "@/hooks/use-toast";
 import logoImage from "@assets/image_1764118320577.png";
 import type { CartItem, Product } from "@shared/schema";
 
@@ -13,7 +14,14 @@ interface CartItemWithProduct extends CartItem {
   product?: Product;
 }
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 export default function Cart() {
+  const { toast } = useToast();
   const [sessionId, setSessionId] = useState(() => {
     const id = typeof window !== 'undefined' ? (localStorage.getItem("sessionId") || crypto.randomUUID()) : crypto.randomUUID();
     if (typeof window !== 'undefined') {
@@ -37,7 +45,6 @@ export default function Cart() {
 
   const checkout = () => {
     if (!cartItems.length) return;
-
     const items = cartItems as CartItemWithProduct[];
     const itemsList = items
       .map(item => `${item.product?.name || 'Product'} (${item.quantity}x ₹${item.product?.price || 0})`)
@@ -51,6 +58,50 @@ export default function Cart() {
     const message = `Hi! I'd like to order:\n\n${itemsList}\n\nTotal: ₹${total.toFixed(2)}\n\nPlease confirm availability and delivery details.`;
     const whatsappUrl = `https://wa.me/919001949260?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
+  };
+
+  const handleRazorpayCheckout = async () => {
+    if (!cartItems.length) return;
+
+    try {
+      const items = cartItems as CartItemWithProduct[];
+      const totalAmount = items.reduce((sum, item) => {
+        const price = parseFloat(item.product?.price || "0");
+        return sum + (price * item.quantity);
+      }, 0);
+
+      const response = await fetch('/api/razorpay/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: Math.round(totalAmount * 100),
+          sessionId,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to create order');
+      const order = await response.json();
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: 'INR',
+        name: 'The पहाड़ी Company',
+        description: 'Order from The Pahadi Company',
+        order_id: order.id,
+        handler: async (response: any) => {
+          toast({ title: 'Payment Successful!', description: 'Your order has been placed.' });
+          localStorage.removeItem('sessionId');
+          setTimeout(() => window.location.href = '/', 2000);
+        },
+        prefill: { contact: '9001949260' },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      toast({ title: 'Error', description: 'Failed to process payment', variant: 'destructive' });
+    }
   };
 
   const total = (cartItems as CartItemWithProduct[]).reduce((sum, item) => {
@@ -112,16 +163,27 @@ export default function Cart() {
                   <span className="text-xl font-semibold text-gray-900">Order Total:</span>
                   <span className="text-3xl font-bold text-orange-700">₹{total.toFixed(2)}</span>
                 </div>
-                <Button
-                  onClick={checkout}
-                  data-testid="button-checkout-whatsapp"
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold gap-2"
-                >
-                  <Phone className="w-5 h-5" />
-                  Complete Order on WhatsApp
-                </Button>
+                <div className="space-y-3">
+                  <Button
+                    onClick={handleRazorpayCheckout}
+                    data-testid="button-checkout-razorpay"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold gap-2"
+                  >
+                    <CreditCard className="w-5 h-5" />
+                    Pay with Razorpay
+                  </Button>
+                  <Button
+                    onClick={checkout}
+                    variant="outline"
+                    data-testid="button-checkout-whatsapp"
+                    className="w-full py-3 text-lg font-semibold gap-2"
+                  >
+                    <Phone className="w-5 h-5" />
+                    Order via WhatsApp
+                  </Button>
+                </div>
                 <p className="text-xs text-gray-600 text-center mt-4">
-                  You'll be redirected to WhatsApp to confirm your order
+                  Choose your preferred payment method
                 </p>
               </Card>
             </>
