@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Instagram, Facebook, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -81,11 +81,47 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-sm text-muted-foreground">
             © 2025 The Pahadi Company. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
+          
+          <div className="flex items-center gap-4 flex-wrap justify-center">
+            {/* Social Media Icons */}
+            <div className="flex gap-3">
+              <a
+                href="https://www.instagram.com/thepahadicompany/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-orange-50 hover:bg-orange-100 text-orange-700 transition-colors"
+                data-testid="link-social-instagram"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.facebook.com/thepahadicompany"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 transition-colors"
+                data-testid="link-social-facebook"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a
+                href="https://twitter.com/thepahadicompany"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+                data-testid="link-social-twitter"
+                aria-label="X (Twitter)"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+            </div>
+            
+            {/* WhatsApp Button */}
             <Button
               variant="outline"
               size="sm"
