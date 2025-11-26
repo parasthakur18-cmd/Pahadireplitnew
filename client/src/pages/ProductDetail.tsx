@@ -3,7 +3,6 @@ import { useLocation } from 'wouter';
 import { Minus, Plus, Heart, Share2, Truck, Shield, Leaf, Award, ChevronDown } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Cart from '@/components/Cart';
 import ProductCard from '@/components/ProductCard';
 import Breadcrumb from '@/components/Breadcrumb';
 import ReviewSection from '@/components/ReviewSection';
@@ -15,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import TestimonialCard from '@/components/TestimonialCard';
 import { useSEOMeta } from '@/components/SEOMeta';
+import { useToast } from '@/hooks/use-toast';
 import type { Product } from '@shared/schema';
 
 // TODO: remove mock - Import images (Consistent sized premium products)
@@ -123,10 +123,6 @@ const mockReviews = [
   },
 ];
 
-interface CartItem extends Product {
-  quantity: number;
-  selectedSize?: string;
-}
 
 interface ProductVariant {
   size: string;
@@ -134,11 +130,13 @@ interface ProductVariant {
 }
 
 export default function ProductDetail() {
+  const { toast } = useToast();
+  const [location, setLocation] = useLocation();
   const [quantity, setQuantity] = useState(1);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [sessionId, setSessionId] = useState<string>('');
+  const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
     const id = localStorage.getItem('sessionId') || crypto.randomUUID();
@@ -194,49 +192,44 @@ export default function ProductDetail() {
     }
   });
 
-  const handleAddToCart = () => {
-    const cartItem = { 
-      ...mockProduct, 
-      quantity,
-      selectedSize: selectedSize || 'default',
-      price: getCurrentPrice()
-    };
-    setCartItems(prev => {
-      const existing = prev.find(item => item.id === mockProduct.id && item.selectedSize === selectedSize);
-      if (existing) {
-        return prev.map(item =>
-          item.id === mockProduct.id && item.selectedSize === selectedSize
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...prev, cartItem];
-    });
-    alert(`✓ Added ${quantity} × ${mockProduct.name} to cart!`);
-    console.log('Added to cart:', mockProduct.name, 'Qty:', quantity);
-  };
+  const handleAddToCart = async () => {
+    if (!sessionId) {
+      toast({ title: "❌ Error: Session ID not found", variant: "destructive" });
+      return;
+    }
 
-  const handleUpdateQuantity = (id: string, qty: number) => {
-    setCartItems(prev => prev.map(item => item.id === id ? { ...item, quantity: qty } : item));
-  };
+    try {
+      setIsAdding(true);
+      const res = await fetch('/api/cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId: mockProduct.id,
+          quantity: quantity,
+          sessionId: sessionId
+        })
+      });
 
-  const handleRemoveItem = (id: string) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
+      if (!res.ok) throw new Error('Failed to add to cart');
+      
+      toast({ title: `✅ Added ${quantity} × ${mockProduct.name} to cart!` });
+      setQuantity(1);
+      setSelectedSize('');
+      
+      // Redirect to cart page after 1 second
+      setTimeout(() => setLocation('/cart'), 1000);
+    } catch (error) {
+      toast({ title: "❌ Error adding to cart", variant: "destructive" });
+      console.error('Add to cart error:', error);
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <Cart
-        items={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-        onCheckout={() => console.log('Checkout')}
-      >
-        <div className="hidden" />
-      </Cart>
-
       <Header
-        cartItemCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+        cartItemCount={0}
         onCartClick={() => {}}
       />
 
@@ -264,10 +257,11 @@ export default function ProductDetail() {
                 size="lg"
                 className="flex-1"
                 onClick={handleAddToCart}
+                disabled={isAdding}
                 data-testid="button-add-to-cart-main"
               >
                 <Plus className="w-4 h-4 mr-2" />
-                Add to Cart
+                {isAdding ? 'Adding...' : 'Add to Cart'}
               </Button>
               {sessionId && (
                 <WishlistButton
