@@ -87,6 +87,33 @@ Priority: 0.8`;
     res.json(product);
   });
 
+  app.post("/api/products", async (req, res) => {
+    const newProduct: Product = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: req.body.name || "New Product",
+      slug: req.body.slug || req.body.name?.toLowerCase().replace(/\s+/g, "-") || "new-product",
+      tagline: req.body.tagline || "Product description",
+      description: req.body.description || "",
+      price: req.body.price || "0",
+      weight: req.body.weight || "0g",
+      image: req.body.image || "/generated_images/placeholder.png",
+      category: req.body.category || "general",
+      inStock: req.body.inStock || 0,
+      benefits: req.body.benefits || [],
+      ingredients: req.body.ingredients || "N/A",
+      usage: req.body.usage || "N/A",
+      variants: req.body.variants || null,
+    };
+    const product = await storage.addProduct(newProduct);
+    res.json(product);
+  });
+
+  app.delete("/api/products/:id", async (req, res) => {
+    const success = await storage.deleteProduct(req.params.id);
+    if (!success) return res.status(404).json({ error: "Product not found" });
+    res.json({ success: true });
+  });
+
   app.get("/api/cart/:sessionId", async (req, res) => {
     const cartItems = await storage.getCartItems(req.params.sessionId);
     const itemsWithProducts = await Promise.all(
