@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Search, Upload, BarChart3, Package, TrendingUp, AlertCircle,
-  Users, ShoppingCart, Eye, Edit2, Trash2, Plus, Settings, Home
+  Users, ShoppingCart, Eye, Edit2, Trash2, Plus, Settings, Home, X
 } from "lucide-react";
 import type { Product } from "@shared/schema";
 
@@ -22,6 +22,18 @@ export default function Admin() {
   const [formData, setFormData] = useState<Partial<Product>>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("all");
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newProductData, setNewProductData] = useState<Partial<Product>>({
+    name: "",
+    price: "0",
+    category: "featured",
+    tagline: "",
+    weight: "500g",
+    inStock: 0,
+    description: "",
+    image: "/generated_images/placeholder.png"
+  });
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   // Fetch Products
   const { data: products = [], isLoading } = useQuery<Product[]>({
@@ -43,7 +55,7 @@ export default function Admin() {
     },
   });
 
-  // Update Product
+  // Update Product Mutation
   const updateMutation = useMutation({
     mutationFn: async (data: { id: string; updates: Partial<Product> }) => {
       const res = await fetch(`/api/products/${data.id}`, {
@@ -65,14 +77,68 @@ export default function Admin() {
     },
   });
 
+  // Create Product Mutation
+  const createMutation = useMutation({
+    mutationFn: async (data: Partial<Product>) => {
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/products"] });
+      setShowAddModal(false);
+      setNewProductData({
+        name: "",
+        price: "0",
+        category: "featured",
+        tagline: "",
+        weight: "500g",
+        inStock: 0,
+        description: "",
+        image: "/generated_images/placeholder.png"
+      });
+      toast({ title: "✅ Product created successfully!" });
+    },
+    onError: () => {
+      toast({ title: "❌ Error creating product", variant: "destructive" });
+    },
+  });
+
+  // Delete Product Mutation
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/products/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/products"] });
+      setDeleteConfirmId(null);
+      toast({ title: "✅ Product deleted!" });
+    },
+    onError: () => {
+      toast({ title: "❌ Error deleting product", variant: "destructive" });
+    },
+  });
+
   // Image Upload Handler
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, isNew = false) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
         const base64 = event.target?.result as string;
-        setFormData({ ...formData, image: base64 });
+        if (isNew) {
+          setNewProductData({ ...newProductData, image: base64 });
+        } else {
+          setFormData({ ...formData, image: base64 });
+        }
         toast({ title: "✅ Image uploaded!" });
       };
       reader.readAsDataURL(file);
@@ -87,6 +153,14 @@ export default function Admin() {
   const handleSave = () => {
     if (!editingId) return;
     updateMutation.mutate({ id: editingId, updates: formData });
+  };
+
+  const handleCreateProduct = () => {
+    if (!newProductData.name) {
+      toast({ title: "⚠️ Please enter product name", variant: "destructive" });
+      return;
+    }
+    createMutation.mutate(newProductData);
   };
 
   // Calculate Metrics
@@ -272,7 +346,7 @@ export default function Admin() {
               </Card>
             </div>
 
-            {/* Recent Activity */}
+            {/* Low Stock Alert */}
             {lowStockProducts.length > 0 && (
               <Card className="bg-yellow-50 border-yellow-200">
                 <CardHeader>
@@ -300,7 +374,7 @@ export default function Admin() {
 
           {/* PRODUCTS TAB */}
           <TabsContent value="products" className="space-y-6">
-            {/* Search & Filter */}
+            {/* Search, Filter & Add Button */}
             <div className="flex gap-3 flex-col sm:flex-row">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
@@ -321,6 +395,13 @@ export default function Admin() {
                   <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
+              <Button
+                onClick={() => setShowAddModal(true)}
+                className="bg-green-700 hover:bg-green-800 flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                Add Product
+              </Button>
             </div>
 
             {isLoading && <p className="text-center text-gray-600">Loading products...</p>}
@@ -381,14 +462,44 @@ export default function Admin() {
                               </div>
                             </div>
                           </div>
-                          <Button
-                            onClick={() => handleEdit(product)}
-                            variant={editingId === product.id ? "default" : "outline"}
-                            size="sm"
-                            className="shrink-0"
-                          >
-                            <Edit2 className="w-4 h-4" />
-                          </Button>
+                          <div className="flex flex-col gap-2 shrink-0">
+                            <Button
+                              onClick={() => handleEdit(product)}
+                              variant={editingId === product.id ? "default" : "outline"}
+                              size="sm"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </Button>
+                            {deleteConfirmId === product.id ? (
+                              <div className="flex gap-1">
+                                <Button
+                                  onClick={() => deleteMutation.mutate(product.id)}
+                                  size="sm"
+                                  className="bg-red-600 hover:bg-red-700 h-8"
+                                  disabled={deleteMutation.isPending}
+                                >
+                                  Confirm
+                                </Button>
+                                <Button
+                                  onClick={() => setDeleteConfirmId(null)}
+                                  variant="outline"
+                                  size="sm"
+                                  className="h-8"
+                                >
+                                  Cancel
+                                </Button>
+                              </div>
+                            ) : (
+                              <Button
+                                onClick={() => setDeleteConfirmId(product.id)}
+                                variant="outline"
+                                size="sm"
+                                className="text-red-600 hover:text-red-700"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            )}
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -409,7 +520,7 @@ export default function Admin() {
                       <input
                         type="file"
                         ref={fileInputRef}
-                        onChange={handleImageUpload}
+                        onChange={(e) => handleImageUpload(e, false)}
                         accept="image/*"
                         className="hidden"
                       />
@@ -422,7 +533,7 @@ export default function Admin() {
                         <Upload className="w-4 h-4 mr-2" />
                         Upload Image
                       </Button>
-                      {formData.image && (
+                      {formData.image && !formData.image.startsWith("/") && (
                         <p className="text-xs text-green-600 font-medium">✓ Image ready</p>
                       )}
                     </div>
@@ -518,6 +629,141 @@ export default function Admin() {
               )}
             </div>
           </TabsContent>
+
+          {/* ADD PRODUCT MODAL */}
+          {showAddModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+              <Card className="w-full max-w-2xl max-h-96 overflow-y-auto">
+                <CardHeader className="flex flex-row items-center justify-between bg-green-50 border-b">
+                  <CardTitle>Add New Product</CardTitle>
+                  <button
+                    onClick={() => setShowAddModal(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </CardHeader>
+                <CardContent className="pt-6 space-y-4">
+                  <div>
+                    <label className="text-sm font-semibold text-gray-700 block mb-2">Product Image</label>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={(e) => handleImageUpload(e, true)}
+                      accept="image/*"
+                      className="hidden"
+                      id="new-product-image"
+                    />
+                    <Button
+                      onClick={() => document.getElementById("new-product-image")?.click()}
+                      variant="outline"
+                      size="sm"
+                      className="w-full mb-2"
+                    >
+                      <Upload className="w-4 h-4 mr-2" />
+                      Upload Image
+                    </Button>
+                    {newProductData.image && !newProductData.image.includes("placeholder") && (
+                      <p className="text-xs text-green-600 font-medium">✓ Image ready</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-semibold text-gray-700">Product Name *</label>
+                    <Input
+                      value={newProductData.name || ""}
+                      onChange={(e) => setNewProductData({ ...newProductData, name: e.target.value })}
+                      placeholder="e.g., Organic Tea Blend"
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-sm font-semibold text-gray-700">Price (₹)</label>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        value={newProductData.price || ""}
+                        onChange={(e) => setNewProductData({ ...newProductData, price: e.target.value })}
+                        placeholder="299.00"
+                        className="mt-1"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-semibold text-gray-700">Stock</label>
+                      <Input
+                        type="number"
+                        value={newProductData.inStock || ""}
+                        onChange={(e) => setNewProductData({ ...newProductData, inStock: parseInt(e.target.value) || 0 })}
+                        placeholder="50"
+                        className="mt-1"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-sm font-semibold text-gray-700">Category</label>
+                      <Input
+                        value={newProductData.category || ""}
+                        onChange={(e) => setNewProductData({ ...newProductData, category: e.target.value })}
+                        placeholder="tea"
+                        className="mt-1"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-semibold text-gray-700">Weight/Size</label>
+                      <Input
+                        value={newProductData.weight || ""}
+                        onChange={(e) => setNewProductData({ ...newProductData, weight: e.target.value })}
+                        placeholder="500g"
+                        className="mt-1"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-semibold text-gray-700">Tagline</label>
+                    <Input
+                      value={newProductData.tagline || ""}
+                      onChange={(e) => setNewProductData({ ...newProductData, tagline: e.target.value })}
+                      placeholder="Short catchy description"
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-semibold text-gray-700">Description</label>
+                    <Textarea
+                      value={newProductData.description || ""}
+                      onChange={(e) => setNewProductData({ ...newProductData, description: e.target.value })}
+                      placeholder="Detailed product description..."
+                      rows={2}
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div className="flex gap-2 pt-4">
+                    <Button
+                      onClick={handleCreateProduct}
+                      className="flex-1 bg-green-700 hover:bg-green-800"
+                      disabled={createMutation.isPending}
+                    >
+                      {createMutation.isPending ? "Creating..." : "Create Product"}
+                    </Button>
+                    <Button
+                      onClick={() => setShowAddModal(false)}
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
 
           {/* INVENTORY TAB */}
           <TabsContent value="inventory" className="space-y-6">
