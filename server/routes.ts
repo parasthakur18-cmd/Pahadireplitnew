@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertCartItemSchema, insertReviewSchema, insertWishlistSchema } from "@shared/schema";
+import { insertCartItemSchema, insertReviewSchema, insertWishlistSchema, insertOrderSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Sitemap endpoint for Google SEO
@@ -188,6 +188,31 @@ Priority: 0.8`;
   app.get("/api/analytics", async (req, res) => {
     const analytics = await storage.getAnalytics();
     res.json(analytics);
+  });
+
+  // Orders API
+  app.get("/api/orders", async (req, res) => {
+    const orders = await storage.getAllOrders();
+    res.json(orders);
+  });
+
+  app.get("/api/orders/:id", async (req, res) => {
+    const order = await storage.getOrderById(req.params.id);
+    if (!order) return res.status(404).json({ error: "Order not found" });
+    res.json(order);
+  });
+
+  app.post("/api/orders", async (req, res) => {
+    const result = insertOrderSchema.safeParse(req.body);
+    if (!result.success) return res.status(400).json({ error: result.error });
+    const order = await storage.createOrder(result.data);
+    res.json(order);
+  });
+
+  app.patch("/api/orders/:id", async (req, res) => {
+    const order = await storage.updateOrderStatus(req.params.id, req.body.status);
+    if (!order) return res.status(404).json({ error: "Order not found" });
+    res.json(order);
   });
 
   const httpServer = createServer(app);

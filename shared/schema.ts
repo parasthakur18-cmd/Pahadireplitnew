@@ -42,6 +42,18 @@ export const wishlists = pgTable("wishlists", {
   sessionId: varchar("session_id").notNull(),
 });
 
+export const orders = pgTable("orders", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  customerName: text("customer_name").notNull(),
+  customerEmail: text("customer_email").notNull(),
+  customerPhone: text("customer_phone").notNull(),
+  customerAddress: text("customer_address").notNull(),
+  items: text("items").notNull(), // JSON string of order items
+  totalPrice: decimal("total_price", { precision: 10, scale: 2 }).notNull(),
+  status: text("status").notNull().default("pending"), // pending, dispatched, delivered
+  createdAt: text("created_at").notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -62,6 +74,7 @@ export const insertCartItemSchema = createInsertSchema(cartItems).omit({ id: tru
 
 export const insertReviewSchema = createInsertSchema(reviews).omit({ id: true });
 export const insertWishlistSchema = createInsertSchema(wishlists).omit({ id: true });
+export const insertOrderSchema = createInsertSchema(orders).omit({ id: true });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -73,3 +86,5 @@ export type Review = typeof reviews.$inferSelect;
 export type InsertReview = z.infer<typeof insertReviewSchema>;
 export type Wishlist = typeof wishlists.$inferSelect;
 export type InsertWishlist = z.infer<typeof insertWishlistSchema>;
+export type Order = typeof orders.$inferSelect;
+export type InsertOrder = z.infer<typeof insertOrderSchema>;

@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type CartItem, type InsertCartItem, type Product, type Review, type InsertReview, type Wishlist, type InsertWishlist } from "@shared/schema";
+import { type User, type InsertUser, type CartItem, type InsertCartItem, type Product, type Review, type InsertReview, type Wishlist, type InsertWishlist, type Order, type InsertOrder } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -22,6 +22,10 @@ export interface IStorage {
   removeFromWishlist(id: string): Promise<void>;
   isInWishlist(productId: string, sessionId: string): Promise<boolean>;
   getAnalytics(): Promise<{ totalRevenue: number; totalOrders: number; totalCost: number }>;
+  getAllOrders(): Promise<Order[]>;
+  createOrder(order: InsertOrder): Promise<Order>;
+  updateOrderStatus(id: string, status: string): Promise<Order | undefined>;
+  getOrderById(id: string): Promise<Order | undefined>;
 }
 
 export class MemStorage implements IStorage {
@@ -30,8 +34,9 @@ export class MemStorage implements IStorage {
   private products: Map<string, Product>;
   private reviews: Map<string, Review>;
   private wishlists: Map<string, Wishlist>;
+  private allOrders: Map<string, Order> = new Map();
   private cartCounter = 0;
-  private orders: Map<string, { id: string; productId: string; quantity: number; totalPrice: number; timestamp: number }> = new Map();
+  private analyticsOrders: Map<string, { id: string; productId: string; quantity: number; totalPrice: number; timestamp: number }> = new Map();
 
   constructor() {
     this.users = new Map();
@@ -331,13 +336,36 @@ export class MemStorage implements IStorage {
     let totalOrders = 0;
     let totalCost = 0;
 
-    Array.from(this.orders.values()).forEach(order => {
+    Array.from(this.analyticsOrders.values()).forEach(order => {
       totalRevenue += order.totalPrice;
       totalOrders += 1;
       totalCost += order.totalPrice * 0.4;
     });
 
     return { totalRevenue, totalOrders, totalCost };
+  }
+
+  async getAllOrders(): Promise<Order[]> {
+    return Array.from(this.allOrders.values());
+  }
+
+  async createOrder(order: InsertOrder): Promise<Order> {
+    const id = randomUUID();
+    const newOrder: Order = { id, ...order };
+    this.allOrders.set(id, newOrder);
+    return newOrder;
+  }
+
+  async updateOrderStatus(id: string, status: string): Promise<Order | undefined> {
+    const existing = this.allOrders.get(id);
+    if (!existing) return undefined;
+    const updated = { ...existing, status };
+    this.allOrders.set(id, updated);
+    return updated;
+  }
+
+  async getOrderById(id: string): Promise<Order | undefined> {
+    return this.allOrders.get(id);
   }
 }
 
