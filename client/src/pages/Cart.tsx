@@ -64,6 +64,12 @@ export default function Cart() {
     if (!cartItems.length) return;
 
     try {
+      // Check if Razorpay script is loaded
+      if (!window.Razorpay) {
+        toast({ title: 'Loading payment gateway...', description: 'Please try again in a moment' });
+        return;
+      }
+
       const items = cartItems as CartItemWithProduct[];
       const totalAmount = items.reduce((sum, item) => {
         const price = parseFloat(item.product?.price || "0");
@@ -79,11 +85,19 @@ export default function Cart() {
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to create order');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create order');
+      }
+      
       const order = await response.json();
+      
+      if (!order.id) {
+        throw new Error('Invalid order response from server');
+      }
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_RkGgLu6G2vIeKr',
         amount: order.amount,
         currency: 'INR',
         name: 'The पहाड़ी Company',
@@ -91,16 +105,26 @@ export default function Cart() {
         order_id: order.id,
         handler: async (response: any) => {
           toast({ title: 'Payment Successful!', description: 'Your order has been placed.' });
+          const cartId = localStorage.getItem('sessionId');
+          if (cartId) {
+            await fetch(`/api/cart/${cartId}/clear`, { method: 'POST' });
+          }
           localStorage.removeItem('sessionId');
           setTimeout(() => window.location.href = '/', 2000);
         },
         prefill: { contact: '9001949260' },
+        modal: { ondismiss: () => { console.log('Payment cancelled'); } }
       };
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
-      toast({ title: 'Error', description: 'Failed to process payment', variant: 'destructive' });
+      console.error('Razorpay error:', error);
+      toast({ 
+        title: 'Error', 
+        description: error instanceof Error ? error.message : 'Failed to process payment', 
+        variant: 'destructive' 
+      });
     }
   };
 
