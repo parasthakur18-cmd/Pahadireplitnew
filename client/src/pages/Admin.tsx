@@ -13,8 +13,13 @@ export default function Admin() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<Product>>({});
 
-  const { data: products = [] } = useQuery<Product[]>({
+  const { data: products = [], isLoading } = useQuery<Product[]>({
     queryKey: ["/api/products"],
+    queryFn: async () => {
+      const res = await fetch("/api/products");
+      if (!res.ok) throw new Error("Failed to fetch products");
+      return res.json();
+    },
   });
 
   const updateMutation = useMutation({
@@ -55,10 +60,12 @@ export default function Admin() {
       <div className="max-w-7xl mx-auto">
         <h1 className="font-serif text-4xl font-bold mb-8">Admin Portal</h1>
 
+        {isLoading && <p className="text-center text-lg">Loading products...</p>}
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Products List */}
           <div className="lg:col-span-2 space-y-4">
-            <h2 className="font-serif text-2xl font-bold mb-4">Products</h2>
+            <h2 className="font-serif text-2xl font-bold mb-4">Products ({products.length})</h2>
             {products.map(product => (
               <Card
                 key={product.id}
