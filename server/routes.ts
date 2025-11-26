@@ -157,6 +157,12 @@ Priority: 0.8`;
     res.json({ inWishlist });
   });
 
+  // Analytics API
+  app.get("/api/analytics", async (req, res) => {
+    const analytics = await storage.getAnalytics();
+    res.json(analytics);
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

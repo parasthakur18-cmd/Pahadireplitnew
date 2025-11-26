@@ -20,6 +20,7 @@ export interface IStorage {
   addToWishlist(wishlist: InsertWishlist): Promise<Wishlist>;
   removeFromWishlist(id: string): Promise<void>;
   isInWishlist(productId: string, sessionId: string): Promise<boolean>;
+  getAnalytics(): Promise<{ totalRevenue: number; totalOrders: number; totalCost: number }>;
 }
 
 export class MemStorage implements IStorage {
@@ -29,6 +30,7 @@ export class MemStorage implements IStorage {
   private reviews: Map<string, Review>;
   private wishlists: Map<string, Wishlist>;
   private cartCounter = 0;
+  private orders: Map<string, { id: string; productId: string; quantity: number; totalPrice: number; timestamp: number }> = new Map();
 
   constructor() {
     this.users = new Map();
@@ -317,6 +319,20 @@ export class MemStorage implements IStorage {
     return Array.from(this.wishlists.values()).some(
       w => w.productId === productId && w.sessionId === sessionId
     );
+  }
+
+  async getAnalytics(): Promise<{ totalRevenue: number; totalOrders: number; totalCost: number }> {
+    let totalRevenue = 0;
+    let totalOrders = 0;
+    let totalCost = 0;
+
+    Array.from(this.orders.values()).forEach(order => {
+      totalRevenue += order.totalPrice;
+      totalOrders += 1;
+      totalCost += order.totalPrice * 0.4;
+    });
+
+    return { totalRevenue, totalOrders, totalCost };
   }
 }
 
