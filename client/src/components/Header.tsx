@@ -65,23 +65,24 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
                 <span className="text-xs font-semibold">WhatsApp</span>
               </Button>
 
-              <Button
-                variant="ghost"
-                size="icon"
-                data-testid="button-cart"
-                onClick={onCartClick}
-                className="relative"
-              >
-                <ShoppingCart className="w-5 h-5" />
-                {cartItemCount > 0 && (
-                  <Badge 
-                    data-testid="badge-cart-count"
-                    className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
-                  >
-                    {cartItemCount}
-                  </Badge>
-                )}
-              </Button>
+              <Link href="/cart" asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  data-testid="button-cart"
+                  className="relative"
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  {cartItemCount > 0 && (
+                    <Badge 
+                      data-testid="badge-cart-count"
+                      className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                    >
+                      {cartItemCount}
+                    </Badge>
+                  )}
+                </Button>
+              </Link>
 
               <Button
                 variant="ghost"
