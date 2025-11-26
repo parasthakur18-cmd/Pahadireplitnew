@@ -10,6 +10,7 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import Footer from '@/components/Footer';
 import Cart from '@/components/Cart';
 import { useSEOMeta } from '@/components/SEOMeta';
+import { useToast } from '@/hooks/use-toast';
 import type { Product } from '@shared/schema';
 
 // TODO: remove mock functionality - Import product images (Consistent sized premium products)
@@ -212,20 +213,30 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { toast } = useToast();
 
-  const handleAddToCart = (product: Product) => {
-    setCartItems(prev => {
-      const existing = prev.find(item => item.id === product.id);
-      if (existing) {
-        return prev.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-    console.log('Added to cart:', product.name);
+  const handleAddToCart = async (product: Product) => {
+    try {
+      const sessionId = localStorage.getItem('sessionId') || crypto.randomUUID();
+      
+      const response = await fetch('/api/cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          productId: product.id,
+          quantity: 1,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to add to cart');
+
+      localStorage.setItem('sessionId', sessionId);
+      setLocation('/cart');
+      toast({ title: 'Added to cart!', description: `${product.name} added to your cart.` });
+    } catch (error) {
+      toast({ title: 'Error', description: 'Failed to add item to cart', variant: 'destructive' });
+    }
   };
 
   const handleUpdateQuantity = (id: string, quantity: number) => {
