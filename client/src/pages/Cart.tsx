@@ -22,13 +22,9 @@ export default function Cart() {
     return id;
   });
 
-  const { data: cartItems = [] } = useQuery<CartItemWithProduct[]>({
+  const { data: cartItems = [], refetch } = useQuery<CartItemWithProduct[]>({
     queryKey: ["/api/cart", sessionId],
-    enabled: !!sessionId,
-  });
-  
-  const { refetch } = useQuery({
-    queryKey: ["/api/cart", sessionId],
+    queryFn: () => fetch(`/api/cart/${sessionId}`).then(r => r.json()),
     enabled: !!sessionId,
   });
 
