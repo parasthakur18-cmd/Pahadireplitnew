@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useSEOMeta } from "@/components/SEOMeta";
-import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
+import logoImage from "@assets/image_1764118320577.png";
 import type { Product } from "@shared/schema";
 
 export default function Products() {

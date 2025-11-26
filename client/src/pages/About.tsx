@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
 import { Button } from '@/components/ui/button';
 import { useSEOMeta } from '@/components/SEOMeta';
-import logoImage from '@assets/Black Circle BG (1)_1764042432325.png';
+import logoImage from '@assets/image_1764118320577.png';
 
 export default function About() {
   useSEOMeta({

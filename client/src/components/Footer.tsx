@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
+import logoImage from "@assets/image_1764118320577.png";
 
 export default function Footer() {
   const [email, setEmail] = useState('');

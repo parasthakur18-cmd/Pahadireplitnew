@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useSEOMeta } from "@/components/SEOMeta";
 import { Calendar, Clock, User } from "lucide-react";
-import logoImage from "@assets/Black Circle BG (1)_1764042432325.png";
+import logoImage from "@assets/image_1764118320577.png";
 
 const blogContent: Record<string, any> = {
   'benefits-of-raw-himalayan-honey': {
