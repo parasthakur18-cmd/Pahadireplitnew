@@ -8,9 +8,21 @@ import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Search, Upload, BarChart3, Package, TrendingUp, AlertCircle,
-  Users, ShoppingCart, Eye, Edit2, Trash2, Plus, Settings, Home, X
+  Users, ShoppingCart, Eye, Edit2, Trash2, Plus, Settings, Home, X, Truck, CheckCircle, Clock
 } from "lucide-react";
 import type { Product } from "@shared/schema";
+
+type Order = {
+  id: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  customerAddress: string;
+  items: string;
+  totalPrice: string;
+  status: string;
+  createdAt: string;
+};
 
 export default function Admin() {
   const { toast } = useToast();
@@ -34,6 +46,8 @@ export default function Admin() {
     image: "/generated_images/placeholder.png"
   });
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [orderSearchTerm, setOrderSearchTerm] = useState("");
+  const [orderStatusFilter, setOrderStatusFilter] = useState("all");
 
   // Fetch Products
   const { data: products = [], isLoading } = useQuery<Product[]>({
@@ -51,6 +65,16 @@ export default function Admin() {
     queryFn: async () => {
       const res = await fetch("/api/analytics");
       if (!res.ok) throw new Error("Failed to fetch analytics");
+      return res.json();
+    },
+  });
+
+  // Fetch Orders
+  const { data: orders = [] } = useQuery<Order[]>({
+    queryKey: ["/api/orders"],
+    queryFn: async () => {
+      const res = await fetch("/api/orders");
+      if (!res.ok) throw new Error("Failed to fetch orders");
       return res.json();
     },
   });
@@ -124,6 +148,26 @@ export default function Admin() {
     },
     onError: () => {
       toast({ title: "❌ Error deleting product", variant: "destructive" });
+    },
+  });
+
+  // Update Order Status Mutation
+  const updateOrderMutation = useMutation({
+    mutationFn: async (data: { id: string; status: string }) => {
+      const res = await fetch(`/api/orders/${data.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: data.status }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
+      toast({ title: "✅ Order status updated!" });
+    },
+    onError: () => {
+      toast({ title: "❌ Error updating order", variant: "destructive" });
     },
   });
 
@@ -204,7 +248,7 @@ export default function Admin() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Navigation Tabs */}
-          <TabsList className="grid w-full grid-cols-5 mb-8 bg-white border border-gray-200">
+          <TabsList className="grid w-full grid-cols-6 mb-8 bg-white border border-gray-200">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <Home className="w-4 h-4" />
               <span className="hidden sm:inline">Dashboard</span>
@@ -212,6 +256,10 @@ export default function Admin() {
             <TabsTrigger value="products" className="flex items-center gap-2">
               <Package className="w-4 h-4" />
               <span className="hidden sm:inline">Products</span>
+            </TabsTrigger>
+            <TabsTrigger value="orders" className="flex items-center gap-2">
+              <ShoppingCart className="w-4 h-4" />
+              <span className="hidden sm:inline">Orders</span>
             </TabsTrigger>
             <TabsTrigger value="inventory" className="flex items-center gap-2">
               <AlertCircle className="w-4 h-4" />
@@ -906,6 +954,160 @@ export default function Admin() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* ORDERS TAB */}
+          <TabsContent value="orders" className="space-y-6">
+            {/* Filter & Search */}
+            <div className="flex gap-3 flex-col sm:flex-row">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                <Input
+                  placeholder="Search by customer name or email..."
+                  value={orderSearchTerm}
+                  onChange={(e) => setOrderSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <select
+                value={orderStatusFilter}
+                onChange={(e) => setOrderStatusFilter(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md bg-white text-sm"
+              >
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="dispatched">Dispatched</option>
+                <option value="delivered">Delivered</option>
+              </select>
+            </div>
+
+            {/* Orders Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card className="bg-white">
+                <CardContent className="pt-6">
+                  <p className="text-sm text-gray-600">Total Orders</p>
+                  <p className="text-3xl font-bold text-gray-900 mt-2">{orders.length}</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-white">
+                <CardContent className="pt-6">
+                  <p className="text-sm text-gray-600">Pending Orders</p>
+                  <p className="text-3xl font-bold text-orange-600 mt-2">{orders.filter(o => o.status === "pending").length}</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-white">
+                <CardContent className="pt-6">
+                  <p className="text-sm text-gray-600">Dispatched Orders</p>
+                  <p className="text-3xl font-bold text-blue-600 mt-2">{orders.filter(o => o.status === "dispatched").length}</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-white">
+                <CardContent className="pt-6">
+                  <p className="text-sm text-gray-600">Delivered Orders</p>
+                  <p className="text-3xl font-bold text-green-600 mt-2">{orders.filter(o => o.status === "delivered").length}</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Orders Table */}
+            <Card className="bg-white">
+              <CardHeader className="border-b">
+                <CardTitle>All Orders</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="border-b">
+                      <tr>
+                        <th className="text-left py-2 px-2 font-semibold text-gray-700">Order ID</th>
+                        <th className="text-left py-2 px-2 font-semibold text-gray-700">Customer</th>
+                        <th className="text-left py-2 px-2 font-semibold text-gray-700">Email</th>
+                        <th className="text-left py-2 px-2 font-semibold text-gray-700">Phone</th>
+                        <th className="text-right py-2 px-2 font-semibold text-gray-700">Amount</th>
+                        <th className="text-center py-2 px-2 font-semibold text-gray-700">Status</th>
+                        <th className="text-center py-2 px-2 font-semibold text-gray-700">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.filter(o => 
+                        (orderStatusFilter === "all" || o.status === orderStatusFilter) &&
+                        (o.customerName.toLowerCase().includes(orderSearchTerm.toLowerCase()) ||
+                         o.customerEmail.toLowerCase().includes(orderSearchTerm.toLowerCase()))
+                      ).map(order => (
+                        <tr key={order.id} className="border-b hover:bg-gray-50">
+                          <td className="py-3 px-2 font-mono text-xs text-gray-600">{order.id.substring(0, 8)}</td>
+                          <td className="py-3 px-2 font-medium text-gray-900">{order.customerName}</td>
+                          <td className="py-3 px-2 text-gray-600">{order.customerEmail}</td>
+                          <td className="py-3 px-2 text-gray-600">{order.customerPhone}</td>
+                          <td className="py-3 px-2 text-right font-semibold text-gray-900">₹{order.totalPrice}</td>
+                          <td className="py-3 px-2 text-center">
+                            <span className={`px-2 py-1 rounded text-xs font-medium ${
+                              order.status === "delivered" ? "bg-green-100 text-green-700" :
+                              order.status === "dispatched" ? "bg-blue-100 text-blue-700" :
+                              "bg-orange-100 text-orange-700"
+                            }`}>
+                              {order.status === "delivered" && <CheckCircle className="w-3 h-3 inline mr-1" />}
+                              {order.status === "dispatched" && <Truck className="w-3 h-3 inline mr-1" />}
+                              {order.status === "pending" && <Clock className="w-3 h-3 inline mr-1" />}
+                              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                            </span>
+                          </td>
+                          <td className="py-3 px-2 text-center">
+                            <select
+                              value={order.status}
+                              onChange={(e) => updateOrderMutation.mutate({ id: order.id, status: e.target.value })}
+                              className="px-2 py-1 border border-gray-300 rounded text-xs bg-white"
+                              disabled={updateOrderMutation.isPending}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="dispatched">Dispatched</option>
+                              <option value="delivered">Delivered</option>
+                            </select>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Order Details Panel */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {orders.map(order => (
+                <Card key={order.id} className="bg-white">
+                  <CardHeader className="border-b">
+                    <CardTitle className="text-sm">Order {order.id.substring(0, 8)}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-6 space-y-3 text-sm">
+                    <div>
+                      <p className="text-gray-600">Customer Name</p>
+                      <p className="font-semibold text-gray-900">{order.customerName}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Email</p>
+                      <p className="font-semibold text-gray-900">{order.customerEmail}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Phone</p>
+                      <p className="font-semibold text-gray-900">{order.customerPhone}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Address</p>
+                      <p className="font-semibold text-gray-900">{order.customerAddress}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Total Amount</p>
+                      <p className="font-semibold text-green-600 text-lg">₹{order.totalPrice}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Created Date</p>
+                      <p className="font-semibold text-gray-900">{new Date(order.createdAt).toLocaleDateString()}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
 
           {/* SETTINGS TAB */}
