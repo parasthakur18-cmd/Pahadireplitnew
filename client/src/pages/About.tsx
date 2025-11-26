@@ -5,6 +5,8 @@ import Breadcrumb from '@/components/Breadcrumb';
 import { Button } from '@/components/ui/button';
 import { useSEOMeta } from '@/components/SEOMeta';
 import logoImage from '@assets/image_1764118320577.png';
+import himalayaHeroImage from '@assets/generated_images/himalayan_landscape_hero_image.png';
+import farmerPhoto from '@assets/generated_images/honey_sourcing_farmer_photo.png';
 
 export default function About() {
   useSEOMeta({
@@ -21,11 +23,20 @@ export default function About() {
       <main className="flex-1">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Our Story' }]} />
 
-        {/* Hero Section */}
-        <div className="bg-gradient-to-r from-orange-50 to-orange-100 py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Story</h1>
-            <p className="text-lg text-gray-700">Bringing pure Himalayan wellness to your home since 2020</p>
+        {/* Hero Section with Image */}
+        <div className="relative h-96 md:h-[500px] w-full overflow-hidden">
+          <img 
+            src={himalayaHeroImage}
+            alt="Himalayan Mountains"
+            className="w-full h-full object-cover"
+            data-testid="img-about-hero"
+          />
+          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+              <h1 className="font-serif text-4xl md:text-5xl font-bold mb-6">Our Story</h1>
+              <p className="text-lg md:text-xl">Bringing pure Himalayan wellness to your home since 2020</p>
+            </div>
           </div>
         </div>
 
@@ -64,15 +75,25 @@ export default function About() {
               </div>
             </section>
 
-            {/* Story Section */}
-            <section className="bg-gray-50 p-8 rounded-lg space-y-4">
-              <h2 className="font-serif text-3xl font-bold mb-6">How It Started</h2>
-              <p className="text-gray-700 leading-relaxed">
-                The पहाड़ी Company was born from a simple belief: the world deserves access to authentic Himalayan wellness products without compromise. Our founders spent years in the Himalayas, building relationships with local farmers, understanding traditional practices, and discovering the incredible power of mountain-grown products.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                What started as a passion project has evolved into a mission to democratize access to premium Himalayan wellness. Every product we sell carries the story of dedicated farmers, generations of wisdom, and unwavering commitment to purity.
-              </p>
+            {/* Story Section with Image */}
+            <section className="grid md:grid-cols-2 gap-8 items-center">
+              <div className="space-y-4">
+                <h2 className="font-serif text-3xl font-bold mb-6">How It Started</h2>
+                <p className="text-gray-700 leading-relaxed">
+                  The पहाड़ी Company was born from a simple belief: the world deserves access to authentic Himalayan wellness products without compromise. Our founders spent years in the Himalayas, building relationships with local farmers, understanding traditional practices, and discovering the incredible power of mountain-grown products.
+                </p>
+                <p className="text-gray-700 leading-relaxed">
+                  What started as a passion project has evolved into a mission to democratize access to premium Himalayan wellness. Every product we sell carries the story of dedicated farmers, generations of wisdom, and unwavering commitment to purity.
+                </p>
+              </div>
+              <div className="rounded-lg overflow-hidden shadow-lg h-96">
+                <img 
+                  src={farmerPhoto}
+                  alt="Himalayan Farmer"
+                  className="w-full h-full object-cover"
+                  data-testid="img-farmer-story"
+                />
+              </div>
             </section>
 
             {/* CTA Section */}

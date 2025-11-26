@@ -3,6 +3,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
 import { useSEOMeta } from '@/components/SEOMeta';
+import farmerPhoto from '@assets/generated_images/honey_sourcing_farmer_photo.png';
+import honeyJarMountain from '@assets/generated_images/honey_jar_with_himalayan_mountain_background.png';
 
 export default function HowItsSourced() {
   useSEOMeta({
@@ -52,26 +54,45 @@ export default function HowItsSourced() {
       <main className="flex-1">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'How It\'s Sourced' }]} />
 
-        {/* Hero */}
-        <div className="bg-gradient-to-r from-green-50 to-green-100 py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 mb-6">How We Source</h1>
-            <p className="text-lg text-gray-700">Authentic. Sustainable. Direct from the Mountains.</p>
+        {/* Hero with Image */}
+        <div className="relative h-96 md:h-[500px] w-full overflow-hidden">
+          <img 
+            src={farmerPhoto}
+            alt="Mountain Farmer Sourcing"
+            className="w-full h-full object-cover"
+            data-testid="img-sourcing-hero"
+          />
+          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+              <h1 className="font-serif text-4xl md:text-5xl font-bold mb-6">How We Source</h1>
+              <p className="text-lg md:text-xl">Authentic. Sustainable. Direct from the Mountains.</p>
+            </div>
           </div>
         </div>
 
         {/* Content */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <section className="space-y-12">
-            {/* Our Commitment */}
-            <div className="bg-white p-8 rounded-lg border border-green-100">
-              <h2 className="font-serif text-3xl font-bold mb-6 flex items-center gap-3">
-                <Leaf className="w-8 h-8 text-green-600" />
-                Our Commitment
-              </h2>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                We believe that authentic products start with authentic relationships. Every product you purchase supports Himalayan farmers, preserves traditional knowledge, and protects mountain ecosystems. We're transparent about our sourcing, rigorous about quality, and committed to sustainability.
-              </p>
+            {/* Our Commitment with Image */}
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div className="rounded-lg overflow-hidden shadow-lg h-96">
+                <img 
+                  src={honeyJarMountain}
+                  alt="Pure Himalayan Products"
+                  className="w-full h-full object-cover"
+                  data-testid="img-sourcing-product"
+                />
+              </div>
+              <div className="bg-white p-8 rounded-lg border border-green-100">
+                <h2 className="font-serif text-3xl font-bold mb-6 flex items-center gap-3">
+                  <Leaf className="w-8 h-8 text-green-600" />
+                  Our Commitment
+                </h2>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  We believe that authentic products start with authentic relationships. Every product you purchase supports Himalayan farmers, preserves traditional knowledge, and protects mountain ecosystems. We're transparent about our sourcing, rigorous about quality, and committed to sustainability.
+                </p>
+              </div>
             </div>
 
             {/* Sourcing Steps */}
