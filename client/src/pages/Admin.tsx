@@ -6,19 +6,24 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, Upload, BarChart3, Package, TrendingUp } from "lucide-react";
+import {
+  Search, Upload, BarChart3, Package, TrendingUp, AlertCircle,
+  Users, ShoppingCart, Eye, Edit2, Trash2, Plus, Settings, Home
+} from "lucide-react";
 import type { Product } from "@shared/schema";
 
 export default function Admin() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
+  const [activeTab, setActiveTab] = useState("dashboard");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<Product>>({});
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [filterCategory, setFilterCategory] = useState("all");
 
+  // Fetch Products
   const { data: products = [], isLoading } = useQuery<Product[]>({
     queryKey: ["/api/products"],
     queryFn: async () => {
@@ -28,6 +33,7 @@ export default function Admin() {
     },
   });
 
+  // Fetch Analytics
   const { data: analytics } = useQuery({
     queryKey: ["/api/analytics"],
     queryFn: async () => {
@@ -37,6 +43,7 @@ export default function Admin() {
     },
   });
 
+  // Update Product
   const updateMutation = useMutation({
     mutationFn: async (data: { id: string; updates: Partial<Product> }) => {
       const res = await fetch(`/api/products/${data.id}`, {
@@ -51,13 +58,14 @@ export default function Admin() {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
       setEditingId(null);
       setFormData({});
-      toast({ title: "✅ Product updated successfully!" });
+      toast({ title: "✅ Product updated!" });
     },
     onError: () => {
       toast({ title: "❌ Error updating product", variant: "destructive" });
     },
   });
 
+  // Image Upload Handler
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -65,7 +73,7 @@ export default function Admin() {
       reader.onload = (event) => {
         const base64 = event.target?.result as string;
         setFormData({ ...formData, image: base64 });
-        toast({ title: "✅ Image uploaded successfully!" });
+        toast({ title: "✅ Image uploaded!" });
       };
       reader.readAsDataURL(file);
     }
@@ -74,7 +82,6 @@ export default function Admin() {
   const handleEdit = (product: Product) => {
     setEditingId(product.id);
     setFormData(product);
-    setActiveTab("products");
   };
 
   const handleSave = () => {
@@ -82,163 +89,323 @@ export default function Admin() {
     updateMutation.mutate({ id: editingId, updates: formData });
   };
 
-  const filteredProducts = products.filter(p =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.slug.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+  // Calculate Metrics
+  const totalRevenue = analytics?.totalRevenue || 0;
+  const totalOrders = analytics?.totalOrders || 0;
+  const totalCost = analytics?.totalCost || 0;
+  const profit = totalRevenue - totalCost;
+  const profitMargin = totalRevenue ? ((profit / totalRevenue) * 100).toFixed(1) : "0";
   const totalStock = products.reduce((sum, p) => sum + p.inStock, 0);
-  const pnl = analytics ? (analytics.totalRevenue - analytics.totalCost) : 0;
+  const lowStockProducts = products.filter(p => p.inStock <= 10);
+  const totalCategories = new Set(products.map(p => p.category)).size;
+
+  // Filter Products
+  const filteredProducts = products.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.slug.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = filterCategory === "all" || p.category === filterCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const sortedByStock = [...products].sort((a, b) => a.inStock - b.inStock);
+  const topProducts = [...products].sort((a, b) => parseFloat(b.price) - parseFloat(a.price)).slice(0, 5);
+  const categories = Array.from(new Set(products.map(p => p.category)));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-sage-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="font-serif text-4xl font-bold text-gray-900">The पहाड़ी Company</h1>
-          <p className="text-gray-600">Admin Dashboard</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="font-serif text-2xl font-bold text-gray-900">पहाड़ी Admin</h1>
+            <p className="text-sm text-gray-600">E-Commerce Management System</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-700">Welcome, Admin</span>
+          </div>
         </div>
+      </header>
 
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          {/* Navigation Tabs */}
+          <TabsList className="grid w-full grid-cols-5 mb-8 bg-white border border-gray-200">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" />
-              Dashboard
+              <Home className="w-4 h-4" />
+              <span className="hidden sm:inline">Dashboard</span>
             </TabsTrigger>
             <TabsTrigger value="products" className="flex items-center gap-2">
               <Package className="w-4 h-4" />
-              Products
+              <span className="hidden sm:inline">Products</span>
+            </TabsTrigger>
+            <TabsTrigger value="inventory" className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4" />
+              <span className="hidden sm:inline">Inventory</span>
             </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              Analytics
+              <BarChart3 className="w-4 h-4" />
+              <span className="hidden sm:inline">Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center gap-2">
+              <Settings className="w-4 h-4" />
+              <span className="hidden sm:inline">Settings</span>
             </TabsTrigger>
           </TabsList>
 
           {/* DASHBOARD TAB */}
           <TabsContent value="dashboard" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-gray-600">Total Revenue</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-orange-700">
-                    ₹{analytics?.totalRevenue?.toLocaleString("en-IN") || "0"}
+            {/* Top Metrics Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card className="bg-white">
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Revenue</p>
+                      <p className="text-2xl font-bold text-gray-900 mt-2">₹{totalRevenue.toLocaleString("en-IN")}</p>
+                      <p className="text-xs text-green-600 mt-1">+12% from last month</p>
+                    </div>
+                    <div className="bg-blue-100 p-3 rounded-lg">
+                      <TrendingUp className="w-5 h-5 text-blue-600" />
+                    </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-gray-600">Total Orders</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-sage-700">
-                    {analytics?.totalOrders || "0"}
+              <Card className="bg-white">
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Orders</p>
+                      <p className="text-2xl font-bold text-gray-900 mt-2">{totalOrders}</p>
+                      <p className="text-xs text-gray-500 mt-1">This period</p>
+                    </div>
+                    <div className="bg-green-100 p-3 rounded-lg">
+                      <ShoppingCart className="w-5 h-5 text-green-600" />
+                    </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-gray-600">Profit & Loss</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className={`text-3xl font-bold ${pnl >= 0 ? "text-green-700" : "text-red-700"}`}>
-                    ₹{pnl?.toLocaleString("en-IN") || "0"}
+              <Card className="bg-white">
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Net Profit</p>
+                      <p className={`text-2xl font-bold mt-2 ${profit >= 0 ? "text-green-600" : "text-red-600"}`}>
+                        ₹{profit.toLocaleString("en-IN")}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">{profitMargin}% margin</p>
+                    </div>
+                    <div className={`p-3 rounded-lg ${profit >= 0 ? "bg-green-100" : "bg-red-100"}`}>
+                      <TrendingUp className={`w-5 h-5 ${profit >= 0 ? "text-green-600" : "text-red-600"}`} />
+                    </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-gray-600">Total Stock</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-blue-700">
-                    {totalStock}
+              <Card className="bg-white">
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Products</p>
+                      <p className="text-2xl font-bold text-gray-900 mt-2">{products.length}</p>
+                      <p className="text-xs text-gray-500 mt-1">{totalCategories} categories</p>
+                    </div>
+                    <div className="bg-purple-100 p-3 rounded-lg">
+                      <Package className="w-5 h-5 text-purple-600" />
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button 
-                  onClick={() => setActiveTab("products")}
-                  className="w-full bg-orange-700 hover:bg-orange-800"
-                >
-                  Manage Products
-                </Button>
-                <Button 
-                  onClick={() => setActiveTab("analytics")}
-                  variant="outline"
-                  className="w-full"
-                >
-                  View Full Analytics
-                </Button>
-              </CardContent>
-            </Card>
+            {/* Dashboard Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Top Products */}
+              <Card className="lg:col-span-2 bg-white">
+                <CardHeader className="border-b">
+                  <CardTitle className="text-lg">Top Products by Price</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <div className="space-y-3">
+                    {topProducts.map((product, idx) => (
+                      <div key={product.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs font-bold text-gray-400 w-6">{idx + 1}</span>
+                          <div>
+                            <p className="text-sm font-medium text-gray-900">{product.name}</p>
+                            <p className="text-xs text-gray-500">{product.category}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm font-bold text-gray-900">₹{product.price}</p>
+                          <p className="text-xs text-gray-500">{product.inStock} in stock</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Quick Stats */}
+              <Card className="bg-white">
+                <CardHeader className="border-b">
+                  <CardTitle className="text-lg">Quick Stats</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6 space-y-4">
+                  <div className="p-3 bg-blue-50 rounded-lg">
+                    <p className="text-xs text-blue-600 font-medium">Total Stock</p>
+                    <p className="text-2xl font-bold text-blue-900 mt-1">{totalStock}</p>
+                  </div>
+                  <div className="p-3 bg-orange-50 rounded-lg">
+                    <p className="text-xs text-orange-600 font-medium">Low Stock Items</p>
+                    <p className="text-2xl font-bold text-orange-900 mt-1">{lowStockProducts.length}</p>
+                  </div>
+                  <div className="p-3 bg-purple-50 rounded-lg">
+                    <p className="text-xs text-purple-600 font-medium">Avg Order Value</p>
+                    <p className="text-2xl font-bold text-purple-900 mt-1">
+                      ₹{totalOrders ? (totalRevenue / totalOrders).toFixed(0) : "0"}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Recent Activity */}
+            {lowStockProducts.length > 0 && (
+              <Card className="bg-yellow-50 border-yellow-200">
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2 text-yellow-900">
+                    <AlertCircle className="w-5 h-5" />
+                    Low Stock Alert
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-yellow-800 mb-3">
+                    {lowStockProducts.length} products have 10 or fewer items in stock.
+                  </p>
+                  <div className="space-y-2">
+                    {lowStockProducts.map(p => (
+                      <div key={p.id} className="text-sm text-yellow-700 flex items-center justify-between">
+                        <span>{p.name}</span>
+                        <span className="font-semibold">{p.inStock} left</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           {/* PRODUCTS TAB */}
           <TabsContent value="products" className="space-y-6">
-            <div className="flex gap-3 mb-6">
+            {/* Search & Filter */}
+            <div className="flex gap-3 flex-col sm:flex-row">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
                 <Input
-                  placeholder="Search products by name..."
+                  placeholder="Search by product name or ID..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
                 />
               </div>
+              <select
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md bg-white text-sm"
+              >
+                <option value="all">All Categories</option>
+                {categories.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
             </div>
 
-            {isLoading && <p className="text-center text-lg text-gray-600">Loading products...</p>}
+            {isLoading && <p className="text-center text-gray-600">Loading products...</p>}
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Products List */}
-              <div className="lg:col-span-2 space-y-4">
-                <h2 className="font-serif text-2xl font-bold">Products ({filteredProducts.length})</h2>
-                {filteredProducts.map(product => (
-                  <Card
-                    key={product.id}
-                    className={`cursor-pointer transition ${editingId === product.id ? "border-orange-500 border-2" : ""}`}
-                  >
-                    <CardContent className="pt-6">
-                      <div className="flex justify-between items-start gap-4">
-                        <div className="flex-1">
-                          <h3 className="font-bold text-lg">{product.name}</h3>
-                          <p className="text-sm text-muted-foreground">Price: ₹{product.price}</p>
-                          <p className="text-sm text-muted-foreground">Stock: {product.inStock}</p>
-                          <p className="text-sm text-muted-foreground">Category: {product.category}</p>
-                        </div>
-                        <Button
-                          onClick={() => handleEdit(product)}
-                          variant={editingId === product.id ? "default" : "outline"}
-                          size="sm"
-                        >
-                          {editingId === product.id ? "Editing..." : "Edit"}
-                        </Button>
-                      </div>
+              <div className="lg:col-span-2 space-y-3">
+                <h2 className="font-serif text-xl font-bold mb-4">
+                  Products ({filteredProducts.length})
+                </h2>
+                {filteredProducts.length === 0 ? (
+                  <Card className="bg-gray-50">
+                    <CardContent className="pt-6 text-center text-gray-500">
+                      No products found
                     </CardContent>
                   </Card>
-                ))}
+                ) : (
+                  filteredProducts.map(product => (
+                    <Card
+                      key={product.id}
+                      className={`bg-white transition cursor-pointer hover:shadow-md ${
+                        editingId === product.id ? "border-2 border-orange-500" : ""
+                      }`}
+                    >
+                      <CardContent className="pt-6">
+                        <div className="flex items-start justify-between gap-4">
+                          {product.image && (
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              className="w-16 h-16 object-cover rounded-lg"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                              }}
+                            />
+                          )}
+                          <div className="flex-1">
+                            <h3 className="font-bold text-gray-900">{product.name}</h3>
+                            <p className="text-sm text-gray-600 mb-2">{product.tagline}</p>
+                            <div className="grid grid-cols-3 gap-3 text-sm">
+                              <div>
+                                <p className="text-gray-500">Price</p>
+                                <p className="font-semibold text-gray-900">₹{product.price}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-500">Stock</p>
+                                <p className={`font-semibold ${
+                                  product.inStock > 20 ? "text-green-600" :
+                                  product.inStock > 10 ? "text-orange-600" :
+                                  "text-red-600"
+                                }`}>
+                                  {product.inStock}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-gray-500">Category</p>
+                                <p className="font-semibold text-gray-900">{product.category}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <Button
+                            onClick={() => handleEdit(product)}
+                            variant={editingId === product.id ? "default" : "outline"}
+                            size="sm"
+                            className="shrink-0"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))
+                )}
               </div>
 
               {/* Edit Form */}
               {editingId && (
-                <Card className="lg:col-span-1 sticky top-8 h-fit border-orange-500 border-2">
-                  <CardHeader>
-                    <CardTitle>Edit Product</CardTitle>
+                <Card className="lg:col-span-1 sticky top-24 h-fit border-2 border-orange-500 bg-white">
+                  <CardHeader className="bg-orange-50 border-b">
+                    <CardTitle className="text-base">Edit Product</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4 max-h-96 overflow-y-auto">
+                  <CardContent className="pt-6 space-y-4 max-h-96 overflow-y-auto">
+                    {/* Image Upload */}
                     <div>
-                      <label className="text-sm font-semibold">Product Image</label>
+                      <label className="text-sm font-semibold text-gray-700 block mb-2">Product Image</label>
                       <input
                         type="file"
                         ref={fileInputRef}
@@ -250,77 +417,84 @@ export default function Admin() {
                         onClick={() => fileInputRef.current?.click()}
                         variant="outline"
                         size="sm"
-                        className="w-full mb-2 mt-1"
+                        className="w-full mb-2"
                       >
                         <Upload className="w-4 h-4 mr-2" />
                         Upload Image
                       </Button>
                       {formData.image && (
-                        <div className="text-xs text-green-600 mb-2">✓ Image uploaded</div>
+                        <p className="text-xs text-green-600 font-medium">✓ Image ready</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold">Product Name</label>
+                      <label className="text-sm font-semibold text-gray-700">Product Name</label>
                       <Input
                         value={formData.name || ""}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="mt-1"
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold">Price (₹)</label>
+                      <label className="text-sm font-semibold text-gray-700">Price (₹)</label>
                       <Input
                         type="number"
                         step="0.01"
                         value={formData.price || ""}
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                        className="mt-1"
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold">Weight/Size</label>
-                      <Input
-                        value={formData.weight || ""}
-                        onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-semibold">Stock</label>
+                      <label className="text-sm font-semibold text-gray-700">Stock</label>
                       <Input
                         type="number"
                         value={formData.inStock || ""}
                         onChange={(e) => setFormData({ ...formData, inStock: parseInt(e.target.value) })}
+                        className="mt-1"
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold">Category</label>
+                      <label className="text-sm font-semibold text-gray-700">Weight/Size</label>
+                      <Input
+                        value={formData.weight || ""}
+                        onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
+                        className="mt-1"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-semibold text-gray-700">Category</label>
                       <Input
                         value={formData.category || ""}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        className="mt-1"
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold">Tagline</label>
+                      <label className="text-sm font-semibold text-gray-700">Tagline</label>
                       <Input
                         value={formData.tagline || ""}
                         onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
+                        className="mt-1"
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold">Description</label>
+                      <label className="text-sm font-semibold text-gray-700">Description</label>
                       <Textarea
                         value={formData.description || ""}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        rows={3}
+                        rows={2}
+                        className="mt-1"
                       />
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 pt-2">
                       <Button
                         onClick={handleSave}
                         className="flex-1 bg-orange-700 hover:bg-orange-800"
@@ -345,63 +519,193 @@ export default function Admin() {
             </div>
           </TabsContent>
 
+          {/* INVENTORY TAB */}
+          <TabsContent value="inventory" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <Card>
+                <CardContent className="pt-6">
+                  <p className="text-sm text-gray-500">Total Stock</p>
+                  <p className="text-3xl font-bold text-gray-900">{totalStock}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <p className="text-sm text-gray-500">Low Stock Items</p>
+                  <p className="text-3xl font-bold text-red-600">{lowStockProducts.length}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <p className="text-sm text-gray-500">Avg Stock per Product</p>
+                  <p className="text-3xl font-bold text-blue-600">
+                    {products.length ? (totalStock / products.length).toFixed(0) : "0"}
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Stock Level Table */}
+            <Card className="bg-white">
+              <CardHeader className="border-b">
+                <CardTitle>Stock Levels</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="border-b">
+                      <tr>
+                        <th className="text-left py-2 px-2 font-semibold text-gray-700">Product</th>
+                        <th className="text-right py-2 px-2 font-semibold text-gray-700">Stock</th>
+                        <th className="text-center py-2 px-2 font-semibold text-gray-700">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sortedByStock.map(product => (
+                        <tr key={product.id} className="border-b hover:bg-gray-50">
+                          <td className="py-3 px-2 text-gray-900 font-medium">{product.name}</td>
+                          <td className="py-3 px-2 text-right font-semibold text-gray-900">
+                            {product.inStock}
+                          </td>
+                          <td className="py-3 px-2">
+                            <span className={`px-2 py-1 rounded text-xs font-medium ${
+                              product.inStock > 20 ? "bg-green-100 text-green-700" :
+                              product.inStock > 10 ? "bg-orange-100 text-orange-700" :
+                              "bg-red-100 text-red-700"
+                            }`}>
+                              {product.inStock > 20 ? "Adequate" : product.inStock > 10 ? "Low" : "Critical"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           {/* ANALYTICS TAB */}
           <TabsContent value="analytics" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Revenue Overview</CardTitle>
+              <Card className="bg-white">
+                <CardHeader className="border-b">
+                  <CardTitle>Revenue Metrics</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-sm text-gray-600">Total Revenue</p>
-                    <p className="text-3xl font-bold text-orange-700">
-                      ₹{analytics?.totalRevenue?.toLocaleString("en-IN") || "0"}
+                <CardContent className="pt-6 space-y-4">
+                  <div className="p-4 bg-blue-50 rounded-lg">
+                    <p className="text-sm text-blue-600 font-medium">Total Revenue</p>
+                    <p className="text-3xl font-bold text-blue-900 mt-2">
+                      ₹{totalRevenue.toLocaleString("en-IN")}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Cost of Goods</p>
-                    <p className="text-2xl font-bold text-red-600">
-                      ₹{analytics?.totalCost?.toLocaleString("en-IN") || "0"}
+                  <div className="p-4 bg-gray-100 rounded-lg">
+                    <p className="text-sm text-gray-600 font-medium">Cost of Goods</p>
+                    <p className="text-3xl font-bold text-gray-900 mt-2">
+                      ₹{totalCost.toLocaleString("en-IN")}
+                    </p>
+                  </div>
+                  <div className={`p-4 rounded-lg ${profit >= 0 ? "bg-green-50" : "bg-red-50"}`}>
+                    <p className={`text-sm font-medium ${profit >= 0 ? "text-green-600" : "text-red-600"}`}>
+                      Net Profit
+                    </p>
+                    <p className={`text-3xl font-bold mt-2 ${profit >= 0 ? "text-green-900" : "text-red-900"}`}>
+                      ₹{profit.toLocaleString("en-IN")}
                     </p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Profitability</CardTitle>
+              <Card className="bg-white">
+                <CardHeader className="border-b">
+                  <CardTitle>Performance</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-sm text-gray-600">Net Profit</p>
-                    <p className={`text-3xl font-bold ${pnl >= 0 ? "text-green-700" : "text-red-700"}`}>
-                      ₹{pnl?.toLocaleString("en-IN") || "0"}
-                    </p>
+                <CardContent className="pt-6 space-y-4">
+                  <div className="p-4 bg-purple-50 rounded-lg">
+                    <p className="text-sm text-purple-600 font-medium">Profit Margin</p>
+                    <p className="text-3xl font-bold text-purple-900 mt-2">{profitMargin}%</p>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Profit Margin</p>
-                    <p className="text-2xl font-bold text-blue-600">
-                      {analytics?.totalRevenue ? ((pnl / analytics.totalRevenue) * 100).toFixed(1) : "0"}%
-                    </p>
+                  <div className="p-4 bg-indigo-50 rounded-lg">
+                    <p className="text-sm text-indigo-600 font-medium">Total Orders</p>
+                    <p className="text-3xl font-bold text-indigo-900 mt-2">{totalOrders}</p>
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card className="md:col-span-2">
-                <CardHeader>
-                  <CardTitle>Product Summary</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <p className="text-sm"><span className="font-semibold">Total Products:</span> {products.length}</p>
-                    <p className="text-sm"><span className="font-semibold">Total Stock:</span> {totalStock} units</p>
-                    <p className="text-sm"><span className="font-semibold">Total Orders:</span> {analytics?.totalOrders || "0"}</p>
-                    <p className="text-sm"><span className="font-semibold">Avg Order Value:</span> ₹{analytics?.totalOrders ? (analytics.totalRevenue / analytics.totalOrders).toFixed(0) : "0"}</p>
+                  <div className="p-4 bg-cyan-50 rounded-lg">
+                    <p className="text-sm text-cyan-600 font-medium">Avg Order Value</p>
+                    <p className="text-3xl font-bold text-cyan-900 mt-2">
+                      ₹{totalOrders ? (totalRevenue / totalOrders).toFixed(0) : "0"}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
             </div>
+
+            {/* Product Breakdown */}
+            <Card className="bg-white">
+              <CardHeader className="border-b">
+                <CardTitle>Product Performance</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="space-y-3">
+                  {products.map(product => (
+                    <div key={product.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                      <div>
+                        <p className="font-medium text-gray-900">{product.name}</p>
+                        <p className="text-xs text-gray-500">{product.category}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold text-gray-900">₹{product.price}</p>
+                        <p className="text-xs text-gray-500">{product.inStock} units</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* SETTINGS TAB */}
+          <TabsContent value="settings" className="space-y-6">
+            <Card className="bg-white">
+              <CardHeader className="border-b">
+                <CardTitle>Store Settings</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-4">
+                <div>
+                  <label className="text-sm font-semibold text-gray-700">Store Name</label>
+                  <Input defaultValue="The पहाड़ी Company" className="mt-1" />
+                </div>
+                <div>
+                  <label className="text-sm font-semibold text-gray-700">WhatsApp Contact</label>
+                  <Input defaultValue="+91 90019 49260" className="mt-1" />
+                </div>
+                <div>
+                  <label className="text-sm font-semibold text-gray-700">Email</label>
+                  <Input defaultValue="contact@pahadi.com" type="email" className="mt-1" />
+                </div>
+                <div>
+                  <label className="text-sm font-semibold text-gray-700">Currency</label>
+                  <Input defaultValue="INR (₹)" className="mt-1" />
+                </div>
+                <Button className="w-full bg-orange-700 hover:bg-orange-800">Save Settings</Button>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white">
+              <CardHeader className="border-b">
+                <CardTitle>Business Information</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-4">
+                <div className="p-4 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-600 font-medium mb-2">Total Products</p>
+                  <p className="text-2xl font-bold text-blue-900">{products.length}</p>
+                </div>
+                <div className="p-4 bg-green-50 rounded-lg">
+                  <p className="text-sm text-green-600 font-medium mb-2">Total Inventory Value</p>
+                  <p className="text-2xl font-bold text-green-900">
+                    ₹{products.reduce((sum, p) => sum + (parseFloat(p.price) * p.inStock), 0).toLocaleString("en-IN")}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
