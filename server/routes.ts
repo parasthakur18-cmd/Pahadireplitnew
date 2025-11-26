@@ -81,6 +81,12 @@ Priority: 0.8`;
     res.json(product);
   });
 
+  app.patch("/api/products/:id", async (req, res) => {
+    const product = await storage.updateProduct(req.params.id, req.body);
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.json(product);
+  });
+
   app.get("/api/cart/:sessionId", async (req, res) => {
     const cartItems = await storage.getCartItems(req.params.sessionId);
     const itemsWithProducts = await Promise.all(

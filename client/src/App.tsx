@@ -7,6 +7,7 @@ import Home from "@/pages/Home";
 import ProductDetail from "@/pages/ProductDetail";
 import Products from "@/pages/Products";
 import Cart from "@/pages/Cart";
+import Admin from "@/pages/Admin";
 import HeaderShowcase from "@/pages/HeaderShowcase";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/products" component={Products} />
       <Route path="/product/:slug" component={ProductDetail} />
       <Route path="/cart" component={Cart} />
+      <Route path="/admin" component={Admin} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/about" component={About} />
