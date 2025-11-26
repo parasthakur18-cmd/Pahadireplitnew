@@ -219,7 +219,7 @@ export default function Home() {
     try {
       const sessionId = localStorage.getItem('sessionId') || crypto.randomUUID();
       
-      const response = await fetch('/api/cart', {
+      const response = await fetch('/api/cart/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

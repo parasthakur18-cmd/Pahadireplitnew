@@ -26,6 +26,14 @@ import farmerImage from '@assets/generated_images/honey_sourcing_farmer_photo.pn
 import buranshImage from '@assets/generated_images/buransh_juice_premium_product.png';
 
 // TODO: remove mock - Sample product data (would come from API/route params in real app)
+const productImages: Record<string, string> = {
+  'himalayan-wildflower-honey': honeyImage,
+  'pahadi-desi-ghee': gheeImage,
+  'himalayan-herbal-tea': teaImage,
+  'cold-pressed-walnut-oil': oilImage,
+  'pahadi-buransh-juice': buranshImage,
+};
+
 const mockProduct: Product = {
   id: '1',
   name: 'Himalayan Wildflower Honey',
